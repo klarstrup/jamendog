@@ -1,7 +1,5 @@
 import React from 'react';
 
-import debounce from 'lodash.debounce';
-
 import pathToRegexp from 'path-to-regexp';
 
 import { Route, Switch, withRouter, Link } from 'react-router-dom';
