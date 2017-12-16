@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "browser": "cross-env NODE_ENV=development WEBPACK_CONFIG=browser_dev webpack-dev-server --open",
-    "build": "cross-env NODE_ENV=production WEBPACK_CONFIG=browser_prod,server_prod webpack --colors",
+    "build": "node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production WEBPACK_CONFIG=browser_prod,server_prod webpack --colors",
     "build-analyze": "cross-env BUNDLE_ANALYZER=1 NODE_ENV=production WEBPACK_CONFIG=browser_prod,server_prod webpack --colors",
     "build-browser": "cross-env NODE_ENV=production WEBPACK_CONFIG=browser_prod webpack --colors",
     "build-run": "npm run build && npm run server",
@@ -18,8 +18,8 @@
     "static": "serve -s dist/public",
     "test": "jest",
     "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
-    "alias-production": "now alias -A now.production.json  --token=$NOW_TOKEN",
-    "alias-staging": "now alias -A now.staging.json  --token=$NOW_TOKEN"
+    "alias-production": "now alias -A now.production.json --token=$NOW_TOKEN",
+    "alias-staging": "now alias -A now.staging.json --token=$NOW_TOKEN"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
