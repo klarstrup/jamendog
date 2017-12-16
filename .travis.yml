@@ -4,8 +4,8 @@ node_js:
 cache: npm
 script: npm run deploy
 after_script:
-  - $TRAVIS_BRANCH == "master" && npm run alias-production
-  - $TRAVIS_BRANCH == "develop" && npm run alias-staging
+  - '[[ $TRAVIS_BRANCH == "master" ]] && npm run alias-production'
+  - '[[ $TRAVIS_BRANCH == "develop" ]] && npm run alias-staging'
 env:
   global:
     secure: Xmnb2E9oO0lf0rbLQZkCO1cNcIu3VZtxQn8eod0BVkTTTTpSka7H69PVNEjSxZcTZoPRVUbLvJSi2DbELIL3V2KbH4dOXmdE7AyIXCUoYBsHLgcXr5gFT2Bus6CN9MVKj8cy74QuuZEyH+SuTAezKNyduMyRXk92DBKcMHzkOOAO3uC5UfJDAmLismOGI6Z2fIRnf6E7a/cr8qgv6bJSV4TbBspJqSZryO7NumbL3ICj++pQNNqNbEMWaR+hiKZwXyczE7NgYyRVEnCVaZmiLCq/3wtMYwIcQyKli2Pq8yvHMv6DDZkGGvz/ptC/LimNy2mgpJZaLxVgZhTxB/43+RQG52jbscKXECp54aZ+EqElWS6XfckddJb7uslEtZy+rbujhp1N8id07RZltCGR/LKJBsQ1m2yOgTSnbTsmifd2CYbBSDu5DwdQzt048HupoELQUDSe8EU96qsfgHrvC3d0wL3BsePz+rMItWZehwCANC8ysPZH95v0P6Xb1AUKPhlHyHldYD2ezTDah2PNef5bc/3JiOsE17sfoshCAi06Wf3dA7dLw1gQe1Ma3VEUR4IvsMG0J/+N0vE0gCx8xqTLmAtUtMt3hCjN/nh1wGHuta3vUZA/cPhQSgsqmTAE1TOjXX5Pte0NEozlgd/b7ndoAj06HMqRApr9IWiLUXM=
