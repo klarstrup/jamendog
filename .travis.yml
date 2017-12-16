@@ -2,7 +2,9 @@ language: node_js
 node_js:
 - "node"
 cache: npm
-script: npm run deploy
+script:
+  - '[[ $TRAVIS_BRANCH == "master" ]] && npm run deploy-production'
+  - '[[ $TRAVIS_BRANCH == "develop" ]] && npm run deploy-staging'
 after_script:
   - '[[ $TRAVIS_BRANCH == "master" ]] && npm run alias-production'
   - '[[ $TRAVIS_BRANCH == "develop" ]] && npm run alias-staging'
