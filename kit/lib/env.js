@@ -14,7 +14,7 @@ export function getServerURL(host = process.env.HOST, port = process.env.PORT, a
   }
 
   // Plain HTTP
-  const stub = `http://${host || process.env.HOST}`;
+  const stub = `https://${host || process.env.HOST}`;
 
   // If we're on port 80, that's 'regular' HTTP so no need to specify port
   if (port === '80') return stub;
