@@ -17,7 +17,7 @@
     "now-start": "node dist/server",
     "static": "serve -s dist/public",
     "test": "jest",
-    "deploy": "now -e NODE_ENV=production --token $NOW_TOKEN --npm",
+    "deploy": "now --token $NOW_TOKEN --npm",
     "alias-production": "now alias -A now.production.json --token=$NOW_TOKEN",
     "alias-staging": "now alias -A now.staging.json --token=$NOW_TOKEN"
   },
