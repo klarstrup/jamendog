@@ -1,3 +1,7 @@
 {
-  "alias": "jamen.dog"
+  "alias": "jamen.dog",
+  "env": {
+    "HOST": "jamen.dog",
+    "SSL_PORT": "443"
+  }
 }

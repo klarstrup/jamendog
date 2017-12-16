@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "browser": "cross-env NODE_ENV=development WEBPACK_CONFIG=browser_dev webpack-dev-server --open",
-    "build": "node_modules/cross-env/dist/bin/cross-env.js NODE_ENV=production WEBPACK_CONFIG=browser_prod,server_prod webpack --colors",
+    "build": "cross-env NODE_ENV=production WEBPACK_CONFIG=browser_prod,server_prod webpack --colors",
     "build-analyze": "cross-env BUNDLE_ANALYZER=1 NODE_ENV=production WEBPACK_CONFIG=browser_prod,server_prod webpack --colors",
     "build-browser": "cross-env NODE_ENV=production WEBPACK_CONFIG=browser_prod webpack --colors",
     "build-run": "npm run build && npm run server",
