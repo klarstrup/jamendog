@@ -2,7 +2,7 @@
   "alias": "staging.jamen.dog",
   "env": {
     "HOST": "staging.jamen.dog",
-    "PORT": "443",
+    "PORT": "80",
     "SSL_PORT": "443"
   }
 }
