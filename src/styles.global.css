@@ -1,15 +1,28 @@
 /* Regular @import url statements work as you'd expect them to -- alternatively
 you can import locally, and they wind up in the resulting bundle */
-@import url('https://fonts.googleapis.com/css?family=Gentium+Basic');
+@import url("https://fonts.googleapis.com/css?family=Gentium+Basic");
 
 html {
   padding: 0;
   border: 0;
-  font-family: 'Gentium Basic', serif;
+  font-family: "Gentium Basic", serif;
   font-size: 16px;
+  box-sizing: border-box;
+  width: 100%;
 
   /* We can nest rules, thanks to cssnext */
   li {
     font-size: 2rem;
   }
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+body {
+  overflow-x: hidden;
+  background: #e0e0e0;
+  width: 100%;
+  margin: 0;
 }

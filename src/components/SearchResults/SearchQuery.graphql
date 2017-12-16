@@ -1,0 +1,10 @@
+query($term: String) {
+  getOffers(term: $term) {
+    id
+    heading
+    description
+    images {
+      thumb
+    }
+  }
+}

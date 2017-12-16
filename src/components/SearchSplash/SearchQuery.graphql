@@ -1,0 +1,10 @@
+query {
+  getOffers {
+    id
+    heading
+    description
+    images {
+      thumb
+    }
+  }
+}

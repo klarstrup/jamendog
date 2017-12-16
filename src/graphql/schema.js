@@ -1,62 +1,56 @@
-// Schema for sample GraphQL server.
+import { makeExecutableSchema } from 'graphql-tools';
 
-// ----------------------
-// IMPORTS
+import R from 'ramda';
 
-// GraphQL schema library, for building our GraphQL schema
-import {
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLSchema,
-} from 'graphql';
+import SGN from 'shopgun-sdk';
 
-// ----------------------
+SGN.config.set({
+  appKey: '00jb5b3exqs9ad6qmpkloyfpzgzampso',
+  // We only need an appSecret when running in Node
+  // In fact including it in the browser will break stuff
+  appSecret: SERVER ? '00jb5b3exq7ake194vxbvmu212ri6xm5' : undefined,
+});
 
-// GraphQL can handle Promises from its `resolve()` calls, so we'll create a
-// simple async function that returns a simple message.  In practice, `resolve()`
-// will generally pull from a 'real' data source such as a database
-async function getMessage() {
-  return {
-    text: `Hello from the GraphQL server @ ${new Date()}`,
-  };
-}
+export const REST = options =>
+  new Promise((resolve, reject) =>
+    SGN.CoreKit.request(R.clone(options), (error, response) => {
+      if (error) {
+        reject({ ...error, response });
+      }
+      resolve(response);
+    }));
 
-// Message type.  Imagine this like static type hinting on the 'message'
-// object we're going to throw back to the user
-const Message = new GraphQLObjectType({
-  name: 'Message',
-  description: 'GraphQL server message',
-  fields() {
-    return {
-      text: {
-        type: GraphQLString,
-        resolve(msg) {
-          return msg.text;
+const typeDefs = `
+    type OfferImages {
+      view: String
+      zoom: String
+      thumb: String
+    }
+
+    type Offer {
+      id: String
+      heading: String
+      description: String
+      images: OfferImages
+    }
+    type Query {
+      getOffers(term: String): [Offer]
+    }
+`;
+
+const resolvers = {
+  Query: {
+    getOffers: (root, { term, offset = 0, limit = 70 }) =>
+      REST({
+        url: term ? '/v2/offers/search' : '/v2/offers',
+        qs: {
+          query: term,
+          offset,
+          limit,
+          order_by: term ? undefined : '-popularity,-created',
         },
-      },
-    };
+      }),
   },
-});
+};
 
-// Root query.  This is our 'public API'.
-const Query = new GraphQLObjectType({
-  name: 'Query',
-  description: 'Root query object',
-  fields() {
-    return {
-      message: {
-        type: Message,
-        resolve() {
-          return getMessage();
-        },
-      },
-    };
-  },
-});
-
-// The resulting schema.  We insert our 'root' `Query` object, to tell our
-// GraphQL server what to respond to.  We could also add a root `mutation`
-// if we want to pass mutation queries that have side-effects (e.g. like HTTP POST)
-export default new GraphQLSchema({
-  query: Query,
-});
+export default makeExecutableSchema({ typeDefs, resolvers });
