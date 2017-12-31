@@ -26,12 +26,49 @@ const typeDefs = `
       zoom: String
       thumb: String
     }
-
+    type PageFlip {
+      logo: String
+      color: String
+    }
+    type Branding {
+      name: String
+      urlName: String
+      website: String
+      logo: String
+      logoBackground: String
+      color: String
+      pageflip: PageFlip
+    }
     type Offer {
       id: String
       heading: String
       description: String
       images: OfferImages
+      branding: Branding
+      pricing: Pricing
+      quantity: Quantity
+    }
+    type Pricing {
+      price: Float
+      prePrice: Float
+      currency: String
+    }
+    type Quantity {
+      unit: Unit
+      size: Range
+      pieces: Range
+    }
+    type Range {
+      from: Float
+      to: Float
+    }
+    type Unit {
+      symbol: String
+      si: SI
+    }
+    type SI {
+      symbol: String
+      factor: Float
     }
     type Query {
       getOffers(term: String): [Offer]

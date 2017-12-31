@@ -3,6 +3,35 @@ query($term: String) {
     id
     heading
     description
+    branding {
+      color
+      pageflip {
+        logo
+        color
+      }
+    }
+    pricing {
+      price
+      prePrice
+      currency
+    }
+    quantity {
+      unit {
+        symbol
+        si {
+          symbol
+          factor
+        }
+      }
+      size {
+        from
+        to
+      }
+      pieces {
+        from
+        to
+      }
+    }
     images {
       thumb
     }

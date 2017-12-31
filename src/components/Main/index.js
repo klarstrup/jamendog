@@ -1,5 +1,5 @@
 import React from 'react';
-
+import Helmet from 'react-helmet';
 import pathToRegexp from 'path-to-regexp';
 
 import MdMenu from 'react-icons/lib/md/menu';
@@ -13,6 +13,7 @@ import { WhenNotFound } from 'components/routes';
 
 import SearchResults from 'components/SearchResults';
 import SearchSplash from 'components/SearchSplash';
+import logo from './logo-sgn.svg';
 
 @withRouter
 class GlobalSearch extends React.PureComponent {
@@ -24,6 +25,16 @@ class GlobalSearch extends React.PureComponent {
 
     this.handleChange = this.handleChange.bind(this);
     //    this.updateUrl = debounce(this.updateUrl, 500, { leading: true });
+  }
+  componentDidMount() {
+    if (!SERVER) {
+      document.addEventListener('scroll', () => {
+        const focused = document.activeElement === this.input;
+        if (focused) {
+          this.input.blur();
+        }
+      });
+    }
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
@@ -92,8 +103,7 @@ class GlobalSearch extends React.PureComponent {
         background: '#373a47',
       },
       bmCrossButton: {
-        height: '24px',
-        width: '24px',
+        display: 'none',
       },
       bmCross: {
         background: '#bdc3c7',
@@ -101,19 +111,18 @@ class GlobalSearch extends React.PureComponent {
       bmMenuWrap: {
         left: 0,
         top: 0,
+        //        maxWidth: '320px',
+        width: 'calc(100vw - 64px)',
       },
       bmMenu: {
-        background: '#373a47',
-        padding: '2.5em 1.5em 0',
-        fontSize: '1.15em',
+        background: '#FFFFFF',
+        boxShadow:
+          '0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)',
       },
       bmMorphShape: {
         fill: '#373a47',
       },
-      bmItemList: {
-        color: '#b8b7ad',
-        padding: '0.8em',
-      },
+      bmItemList: {},
       bmOverlay: {
         background: 'rgba(0, 0, 0, 0.3)',
         left: 0,
@@ -122,6 +131,7 @@ class GlobalSearch extends React.PureComponent {
     };
     return (
       <div>
+        <Helmet defaultTitle="Jamen Dog - der er tilbud!" titleTemplate="%s - Jamen Dog" />
         <div
           style={{
             width: '100%',
@@ -151,7 +161,7 @@ class GlobalSearch extends React.PureComponent {
                 left: 'initial',
                 lineHeight: 1,
                 top: '50%',
-                padding: '0.5em 0.75em',
+                padding: '.6em .9em',
                 color: '#212121',
                 fontSize: '1.1em',
                 transform: 'translateY(-50%)',
@@ -165,18 +175,20 @@ class GlobalSearch extends React.PureComponent {
             isOpen={this.state.showMenu}
             onStateChange={({ isOpen }) => this.setState({ showMenu: isOpen })}
             styles={styles}>
-            <a id="home" className="menu-item" href="/">
-              Home
-            </a>
-            <a id="about" className="menu-item" href="/about">
-              About
-            </a>
-            <a id="contact" className="menu-item" href="/contact">
-              Contact
-            </a>
-            <a onClick={this.showSettings} className="menu-item--small" href="">
-              Settings
-            </a>
+            <section>Profile stuff/login enticing</section>
+            <section>
+              <header>Header</header>
+              <ul>
+                <li>Item</li>
+              </ul>
+            </section>
+            <div>
+              Powered by ShopGun{' '}
+              <img
+                src={logo}
+                style={{ width: '24px', height: '24px', verticalAlign: 'bottom' }}
+                alt="ShopGun Logo" />
+            </div>
           </Menu>
 
           {focused || this.getTerm() !== undefined ? (
@@ -211,7 +223,7 @@ class GlobalSearch extends React.PureComponent {
             ref={el => {
               this.input = el;
             }}
-            type="text"
+            type="search"
             value={this.state.term}
             onChange={this.handleChange}
             onBlur={this.handleBlur}
