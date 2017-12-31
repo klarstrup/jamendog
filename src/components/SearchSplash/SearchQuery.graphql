@@ -1,39 +1,49 @@
 query {
-  getOffers {
-    id
-    heading
-    description
-    branding {
-      color
-      pageflip {
-        logo
+  search {
+    ... on Business {
+      id
+      name
+    }
+    ... on PagedPublication {
+      id
+      label
+    }
+    ... on Offer {
+      id
+      heading
+      description
+      branding {
         color
-      }
-    }
-    pricing {
-      price
-      prePrice
-      currency
-    }
-    quantity {
-      unit {
-        symbol
-        si {
-          symbol
-          factor
+        pageflip {
+          logo
+          color
         }
       }
-      size {
-        from
-        to
+      pricing {
+        price
+        prePrice
+        currency
       }
-      pieces {
-        from
-        to
+      quantity {
+        unit {
+          symbol
+          si {
+            symbol
+            factor
+          }
+        }
+        size {
+          from
+          to
+        }
+        pieces {
+          from
+          to
+        }
       }
-    }
-    images {
-      thumb
+      images {
+        thumb
+      }
     }
   }
 }

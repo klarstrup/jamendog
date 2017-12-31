@@ -12,6 +12,7 @@ SGN.config.set({
 });
 
 export const REST = options =>
+  console.log(options) ||
   new Promise((resolve, reject) =>
     SGN.CoreKit.request(R.clone(options), (error, response) => {
       if (error) {
@@ -70,23 +71,74 @@ const typeDefs = `
       symbol: String
       factor: Float
     }
+    type Business {
+      id: String
+      name: String
+    }
+    type PagedPublication {
+      id: String
+      label: String
+    }
+    union SearchResult = Offer | Business | PagedPublication
     type Query {
       getOffers(term: String): [Offer]
+      search(term: String): [SearchResult]
     }
 `;
 
 const resolvers = {
+  SearchResult: {
+    __resolveType: ({ ern }) =>
+      ({
+        dealer: 'Business',
+        offer: 'Offer',
+        catalog: 'PagedPublication',
+      }[ern.split(':')[1]]),
+  },
   Query: {
-    getOffers: (root, { term, offset = 0, limit = 70 }) =>
+    getOffers: (root, { term = '', offset = 0, limit = 70 }) =>
       REST({
         url: term ? '/v2/offers/search' : '/v2/offers',
         qs: {
-          query: term,
           offset,
           limit,
-          order_by: term ? undefined : '-popularity,-created',
+          ...(term ? { query: term } : { order_by: '-popularity,-created' }),
         },
       }),
+    search: async (root, { term = '', offset = 0, limit = 70 }) => {
+      try {
+        const [offers, catalogs, businesses] = await Promise.all([
+          REST({
+            url: term ? '/v2/offers/search' : '/v2/offers',
+            qs: {
+              offset,
+              limit,
+              ...(term ? { query: term } : { order_by: '-popularity,-created' }),
+            },
+          }),
+          REST({
+            url: term ? '/v2/catalogs/search' : '/v2/catalogs',
+            qs: {
+              offset,
+              limit,
+              ...(term ? { query: term } : { order_by: '-popularity,-created' }),
+            },
+          }),
+          REST({
+            url: term ? '/v2/dealers/search' : '/v2/dealers',
+            qs: {
+              offset,
+              limit,
+              ...(term ? { query: term } : { order_by: '-popularity,-created' }),
+            },
+          }).catch(() => []),
+        ]);
+        return [...offers, ...catalogs, ...businesses];
+      } catch (e) {
+        console.error(e);
+      }
+      return [];
+    },
   },
 };
 

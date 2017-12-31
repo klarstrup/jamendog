@@ -10,18 +10,28 @@ import { createNetworkInterface, ApolloClient } from 'react-apollo';
 
 // Configuration
 import config from 'kit/config';
+import { getFragmentMatcher } from 'kit/lib/fragment_matcher';
 
 // Get environment, to figure out where we're running the GraphQL server
 import { getServerURL } from 'kit/lib/env';
 
 // ----------------------
+const dataIdFromObject = ({ __typename, id }) => __typename && id && `${__typename}:${id}`;
 
 // Helper function to create a new Apollo client, by merging in
 // passed options alongside any set by `config.setApolloClientOptions` and defaults
 export function createClient(opt = {}) {
-  return new ApolloClient(Object.assign({
-    reduxRootSelector: state => state.apollo,
-  }, config.apolloClientOptions, opt));
+  return new ApolloClient(
+    Object.assign(
+      {
+        reduxRootSelector: state => state.apollo,
+        dataIdFromObject,
+        fragmentMatcher: getFragmentMatcher(),
+      },
+      config.apolloClientOptions,
+      opt,
+    ),
+  );
 }
 
 // Wrap `createNetworkInterface` to attach middleware
@@ -43,7 +53,8 @@ export function browserClient() {
   // If we have an internal GraphQL server, we need to append it with a
   // call to `getServerURL()` to add the correct host (in dev + production)
   const uri = config.graphQLServer
-    ? `${getServerURL()}${config.graphQLEndpoint}` : config.graphQLEndpoint;
+    ? `${getServerURL()}${config.graphQLEndpoint}`
+    : config.graphQLEndpoint;
 
   return createClient({
     networkInterface: getNetworkInterface(uri),
