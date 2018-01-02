@@ -15,7 +15,7 @@ export function getServerURL(host = process.env.HOST, port = process.env.PORT, a
 
   // Plain HTTP
   const stub =
-    host === 'jamen.dog' || host === 'staging.jamen.dog' || host.endsWith('.now.sh')
+    host === 'jamen.dog' || host === 'staging.jamen.dog' || host === 'development.jamen.dog'
       ? `https://${host || process.env.HOST}`
       : `http://${host || process.env.HOST}`;
 
