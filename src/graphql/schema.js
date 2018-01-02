@@ -2,6 +2,8 @@ import { makeExecutableSchema } from 'graphql-tools';
 
 import R from 'ramda';
 
+import camelCaseObject from 'camelize';
+
 import SGN from 'shopgun-sdk';
 
 SGN.config.set({
@@ -10,19 +12,30 @@ SGN.config.set({
   // In fact including it in the browser will break stuff
   appSecret: SERVER ? '00jb5b3exq7ake194vxbvmu212ri6xm5' : undefined,
 });
-
+// 55.6599125,12.4903421
 export const REST = options =>
   console.log(options) ||
   new Promise((resolve, reject) =>
-    SGN.CoreKit.request(R.clone(options), (error, response) => {
-      if (error) {
-        reject({ ...error, response });
-      }
-      resolve(response);
-    }));
-
+    SGN.CoreKit.request(
+      R.clone({
+        ...options,
+        geolocation: {
+          latitude: 55.6599125,
+          longitude: 12.4903421,
+        },
+      }),
+      (error, response) => {
+        if (error) {
+          reject({ ...error, response });
+        }
+        resolve(camelCaseObject(response));
+      },
+    ));
+REST({ url: '/v2/dealers/suggested' })
+  .then(console.log)
+  .catch(console.error);
 const typeDefs = `
-    type OfferImages {
+    type Images {
       view: String
       zoom: String
       thumb: String
@@ -44,7 +57,7 @@ const typeDefs = `
       id: String
       heading: String
       description: String
-      images: OfferImages
+      images: Images
       branding: Branding
       pricing: Pricing
       quantity: Quantity
@@ -71,17 +84,35 @@ const typeDefs = `
       symbol: String
       factor: Float
     }
+    type Location {
+      id: String
+      street: String
+      city: String
+      zipCode: String
+    }
+    type Country {
+      id: String
+      unsubscribePrintUrl: String
+    }
     type Business {
       id: String
       name: String
+      color: String
+      country: Country
+      locations(limit: Int, offset: Int): [Location]
+      pagedPublications(limit: Int, offset: Int): [PagedPublication]
     }
     type PagedPublication {
       id: String
       label: String
+      images: Images
     }
     union SearchResult = Offer | Business | PagedPublication
     type Query {
       getOffers(term: String): [Offer]
+      getPagedPublications(term: String): [PagedPublication]
+      getBusinesses(term: String): [Business]
+      getSuggestedBusinesses(limit: Int, offset: Int): [Business]
       search(term: String): [SearchResult]
     }
 `;
@@ -95,6 +126,26 @@ const resolvers = {
         catalog: 'PagedPublication',
       }[ern.split(':')[1]]),
   },
+  Business: {
+    locations: ({ id }, { offset = 0, limit = 70 }) =>
+      REST({
+        url: '/v2/stores',
+        qs: {
+          offset,
+          limit,
+          dealer_ids: [id],
+        },
+      }),
+    pagedPublications: ({ id }, { offset = 0, limit = 70 }) =>
+      REST({
+        url: '/v2/catalogs',
+        qs: {
+          offset,
+          limit,
+          dealer_ids: [id],
+        },
+      }),
+  },
   Query: {
     getOffers: (root, { term = '', offset = 0, limit = 70 }) =>
       REST({
@@ -102,9 +153,46 @@ const resolvers = {
         qs: {
           offset,
           limit,
-          ...(term ? { query: term } : { order_by: '-popularity,-created' }),
+          query: term,
+          //          ...(term ? { query: term } : { order_by: '-popularity,-created' }),
         },
-      }),
+      }).then(
+        R.filter(
+          ({ branding: { website } }) => website.endsWith('.dk') || website.endsWith('.dk/'),
+        ),
+      ),
+    getPagedPublications: (root, { term = '', offset = 0, limit = 70 }) =>
+      REST({
+        url: term ? '/v2/catalogs/search' : '/v2/catalogs',
+        qs: {
+          offset,
+          limit,
+          query: term,
+          //          ...(term ? { query: term } : { order_by: '-popularity,-created' }),
+        },
+      }).then(
+        R.filter(
+          ({ branding: { website } }) => website.endsWith('.dk') || website.endsWith('.dk/'),
+        ),
+      ),
+    getBusinesses: (root, { term = '', offset = 0, limit = 70 }) =>
+      REST({
+        url: term ? '/v2/dealers/search' : '/v2/dealers',
+        qs: {
+          offset,
+          limit,
+          query: term,
+          //          ...(term ? { query: term } : { order_by: '-popularity,-created' }),
+        },
+      }).then(R.filter(business => business.country.id === 'DK')),
+    getSuggestedBusinesses: (root, { offset = 0, limit = 70 }) =>
+      REST({
+        url: '/v2/dealers/suggested',
+        qs: {
+          offset,
+          limit,
+        },
+      }).then(R.filter(business => business.country.id === 'DK')),
     search: async (root, { term = '', offset = 0, limit = 70 }) => {
       try {
         const [offers, catalogs, businesses] = await Promise.all([

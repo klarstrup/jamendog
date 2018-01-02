@@ -32,7 +32,7 @@ export default ({ offer }) => (
     style={{
       background: `#${offer.branding.color}`,
       color: contrastBWFromHex(offer.branding.color),
-      borderRadius: '2px',
+      borderRadius: '4px',
       margin: '8px',
       display: 'flex',
       boxShadow:
