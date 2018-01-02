@@ -85,6 +85,7 @@ export default ({ business }) => (
               marginRight: '4px',
               padding: '2px 4px',
               border: `1px solid ${contrastHighlightFromHexInv(business.color)}`,
+              fontSize: '14px',
             }}>
             {location.street}
             <div>

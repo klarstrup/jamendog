@@ -16,6 +16,7 @@ html {
 }
 body {
   overflow-x: hidden;
+  overflow-y: scroll;
   background: #fafafa;
   width: 100%;
   margin: 0;
