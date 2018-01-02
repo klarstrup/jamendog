@@ -1,0 +1,7 @@
+{
+  "alias": "development.jamen.dog",
+  "env": {
+    "HOST": "development.jamen.dog",
+    "PORT": "80"
+  }
+}
