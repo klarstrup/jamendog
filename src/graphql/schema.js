@@ -1,6 +1,6 @@
 import { makeExecutableSchema } from 'graphql-tools';
 
-import R from 'ramda';
+import * as R from 'ramda';
 
 import camelCaseObject from 'camelize';
 
