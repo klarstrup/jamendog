@@ -332,24 +332,35 @@ class LogOutForm extends React.Component {
   }
 }
 
-@graphql(viewerQuery)
-class ViewerData extends React.Component {
-  render() {
-    return this.props.children(this.props.data.viewer);
-    return this.props.data.viewer ? (
-      <React.Fragment>
-        <LogOutForm />
-        <pre>{JSON.stringify(this.props.data.viewer, null, 2)}</pre>
-      </React.Fragment>
-    ) : (
-      <LogInForm />
-    );
-  }
-}
+const ViewerData = graphql(viewerQuery)(({ children, data }) => children(data.viewer));
 
+@graphql(
+  gql`
+    {
+      getShoppingLists {
+        id
+        name
+        items {
+          id
+          count
+          description
+          tick
+          offerId
+        }
+      }
+    }
+  `,
+)
 class ShoppingList extends React.Component {
   render() {
-    return 'Shoppinglist';
+    const { getShoppingLists } = this.props.data;
+    return getShoppingLists
+      ? getShoppingLists.map(list => (
+        <li key={list.id}>
+          <pre>{JSON.stringify(list, null, 2)}</pre>
+        </li>
+      ))
+      : '???';
   }
 }
 

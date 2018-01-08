@@ -68,12 +68,6 @@ import Helmet from 'react-helmet';
 // Import the Apollo GraphQL server, for Koa
 import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
 
-// Allow local GraphQL schema querying when using a built-in GraphQL server
-import apolloLocalQuery from 'apollo-local-query';
-
-// Import all of the GraphQL lib, for use with our Apollo client connection
-import * as graphql from 'graphql';
-
 /* ReactQL */
 
 // App entry point.  This must come first, because app.js will set-up the

@@ -117,6 +117,7 @@ const typeDefs = `
       getPagedPublications(term: String): [PagedPublication]
       getBusinesses(term: String): [Business]
       getSuggestedBusinesses(limit: Int, offset: Int): [Business]
+      getShoppingLists: [ShoppingList]
       search(term: String): [SearchResult]
       viewer: User
     }
@@ -134,6 +135,18 @@ const typeDefs = `
       birthYear: Int
       email: String
       name: String
+    }
+    type ShoppingList {
+      id: String
+      name: String
+      items: [ShoppingListItem]
+    }
+    type ShoppingListItem {
+      id: String
+      count: Int
+      description: String
+      tick: Boolean
+      offerId: String
     }
 `;
 
@@ -164,6 +177,12 @@ const resolvers = {
           limit,
           dealer_ids: [id],
         },
+      }),
+  },
+  ShoppingList: {
+    items: ({ id }, args, ctx) =>
+      REST({
+        url: `/v2/users/${ctx.session.user.id}/shoppinglists/${id}/items`,
       }),
   },
   Mutation: {
@@ -232,6 +251,10 @@ const resolvers = {
           limit,
         },
       }).then(R.filter(business => business.country.id === 'DK')),
+    getShoppingLists: (root, args, ctx) =>
+      REST({
+        url: `/v2/users/${ctx.session.user.id}/shoppinglists`,
+      }),
     search: async (root, { term = '', offset = 0, limit = 70 }) => {
       try {
         const [offers, catalogs, businesses] = await Promise.all([

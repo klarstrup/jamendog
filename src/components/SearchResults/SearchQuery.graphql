@@ -20,7 +20,7 @@ query($term: String) {
       }
     }
   }
-  getOffers(term: $term) {
+  getOffers(term: $term, limit: 14) {
     id
     heading
     description
