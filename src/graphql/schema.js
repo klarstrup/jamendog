@@ -6,6 +6,8 @@ import camelCaseObject from 'camelize';
 
 import SGN from 'shopgun-sdk';
 
+if (!SERVER) window.SGN = SGN;
+
 SGN.config.set({
   appKey: '00jb5b3exqs9ad6qmpkloyfpzgzampso',
   // We only need an appSecret when running in Node
@@ -31,9 +33,11 @@ export const REST = options =>
         resolve(camelCaseObject(response));
       },
     ));
-REST({ url: '/v2/dealers/suggested' })
+
+REST({ url: '/v2/sessions' })
   .then(console.log)
   .catch(console.error);
+
 const typeDefs = `
     type Images {
       view: String
@@ -114,6 +118,22 @@ const typeDefs = `
       getBusinesses(term: String): [Business]
       getSuggestedBusinesses(limit: Int, offset: Int): [Business]
       search(term: String): [SearchResult]
+      viewer: User
+    }
+    input LogInInput {
+      email: String!
+      password: String!
+    }
+    type Mutation {
+      logIn(input: LogInInput): User!
+      logOut: User
+    }
+    type User {
+      id: String
+      gender: String
+      birthYear: Int
+      email: String
+      name: String
     }
 `;
 
@@ -145,6 +165,25 @@ const resolvers = {
           dealer_ids: [id],
         },
       }),
+  },
+  Mutation: {
+    logIn: async (root, { input: { email, password } }) =>
+      (await REST({
+        url: '/v2/sessions',
+        method: 'PUT',
+        body: {
+          email,
+          password,
+        },
+      })).user,
+    logOut: async () =>
+      (await new Promise((resolve, reject) =>
+        SGN.CoreKit.session.create((error, response) => {
+          if (error) {
+            reject({ ...error, response });
+          }
+          resolve(camelCaseObject(response));
+        }))).user,
   },
   Query: {
     getOffers: (root, { term = '', offset = 0, limit = 70 }) =>
@@ -227,6 +266,7 @@ const resolvers = {
       }
       return [];
     },
+    viewer: (root, args, ctx) => ctx.session && ctx.session.user,
   },
 };
 

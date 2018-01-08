@@ -9,6 +9,9 @@ import MdFilterList from 'react-icons/lib/md/filter-list';
 import { slide as Menu } from 'react-burger-menu';
 
 import { Route, Switch, withRouter, Link } from 'react-router-dom';
+
+import { graphql, gql } from 'react-apollo';
+
 import { WhenNotFound } from 'components/routes';
 
 import SearchResults from 'components/SearchResults';
@@ -236,12 +239,142 @@ class GlobalSearch extends React.PureComponent {
     );
   }
 }
-const ShoppingList = () => 'Shoppinglist';
+
+const viewerQuery = gql`
+  {
+    viewer {
+      id
+      gender
+      birthYear
+      email
+      name
+    }
+  }
+`;
+
+@graphql(gql`
+  mutation($logIn: LogInInput) {
+    logIn(input: $logIn) {
+      id
+      gender
+      birthYear
+      email
+      name
+    }
+  }
+`)
+class LogInForm extends React.Component {
+  onSubmit = e => {
+    e.preventDefault();
+
+    this.props.mutate({
+      variables: {
+        logIn: {
+          email: e.currentTarget.email.value,
+          password: e.currentTarget.password.value,
+        },
+      },
+      update: (proxy, { data: { logIn } }) => {
+        proxy.writeQuery({
+          query: viewerQuery,
+          data: {
+            ...proxy.readQuery({ query: viewerQuery }),
+            viewer: logIn,
+          },
+        });
+      },
+    });
+  };
+  render() {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input type="email" name="email" />
+        <input type="password" name="password" />
+        <input type="submit" />
+      </form>
+    );
+  }
+}
+
+@graphql(gql`
+  mutation logOut {
+    logOut {
+      id
+      gender
+      birthYear
+      email
+      name
+    }
+  }
+`)
+class LogOutForm extends React.Component {
+  onSubmit = e => {
+    e.preventDefault();
+
+    this.props.mutate({
+      update: (proxy, { data: { logOut } }) => {
+        proxy.writeQuery({
+          query: viewerQuery,
+          data: {
+            ...proxy.readQuery({ query: viewerQuery }),
+            viewer: logOut,
+          },
+        });
+      },
+    });
+  };
+  render() {
+    return (
+      <form onSubmit={this.onSubmit}>
+        <input type="submit" value="Log out" />
+      </form>
+    );
+  }
+}
+
+@graphql(viewerQuery)
+class ViewerData extends React.Component {
+  render() {
+    return this.props.children(this.props.data.viewer);
+    return this.props.data.viewer ? (
+      <React.Fragment>
+        <LogOutForm />
+        <pre>{JSON.stringify(this.props.data.viewer, null, 2)}</pre>
+      </React.Fragment>
+    ) : (
+      <LogInForm />
+    );
+  }
+}
+
+class ShoppingList extends React.Component {
+  render() {
+    return 'Shoppinglist';
+  }
+}
+
 export default () => (
   <React.Fragment>
     <GlobalSearch />
     <Switch>
-      <Route exact path="/" component={ShoppingList} />
+      <Route
+        exact
+        path="/"
+        component={() => (
+          <ViewerData>
+            {viewer =>
+              (viewer ? (
+                <React.Fragment>
+                  <ShoppingList />
+                  <LogOutForm />
+                  <pre>{JSON.stringify(viewer, null, 2)}</pre>
+                </React.Fragment>
+              ) : (
+                <LogInForm />
+              ))
+            }
+          </ViewerData>
+        )} />
       <Route exact path="/search/" component={SearchSplash} />
       <Route exact path="/search/:term" component={SearchResults} />
       <Route component={WhenNotFound} />

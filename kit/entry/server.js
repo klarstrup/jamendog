@@ -101,32 +101,6 @@ import PATHS from 'config/paths';
 
 // ----------------------
 
-// Create a network layer based on settings.  This is an immediate function
-// that binds either the `localInterface` function (if there's a built-in
-// GraphQL) or `externalInterface` (if we're pointing outside of ReactQL)
-const createNeworkInterface = (() => {
-  // For a local interface, we want to allow passing in the request's
-  // context object, which can then feed through to our GraphQL queries to
-  // extract pertinent information and manipulate the response
-  function localInterface(context) {
-    return apolloLocalQuery.createLocalInterface(
-      graphql,
-      config.graphQLSchema,
-      {
-        // Attach the request's context, which certain GraphQL queries might
-        // need for accessing cookies, auth headers, etc.
-        context,
-      },
-    );
-  }
-
-  function externalInterface(ctx) {
-    return getNetworkInterface(config.graphQLEndpoint, ctx.apollo.networkOptions);
-  }
-
-  return config.graphQLServer ? localInterface : externalInterface;
-})();
-
 // Static file middleware
 export function staticMiddleware() {
   return async function staticMiddlewareHandler(ctx, next) {
@@ -135,15 +109,19 @@ export function staticMiddleware() {
         return await koaSend(
           ctx,
           ctx.path,
-          process.env.NODE_ENV === 'production' ? {
-            root: PATHS.public,
-            immutable: true,
-          } : {
-            root: PATHS.distDev,
-          },
+          process.env.NODE_ENV === 'production'
+            ? {
+              root: PATHS.public,
+              immutable: true,
+            }
+            : {
+              root: PATHS.distDev,
+            },
         );
       }
-    } catch (e) { /* Errors will fall through */ }
+    } catch (e) {
+      /* Errors will fall through */
+    }
     return next();
   };
 }
@@ -232,7 +210,7 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
 
 // Build the router, based on our app's settings.  This will define which
 // Koa route handlers
-const router = (new KoaRouter())
+const router = new KoaRouter()
   // Set-up a general purpose /ping route to check the server is alive
   .get('/ping', async ctx => {
     ctx.body = 'pong';
@@ -274,7 +252,7 @@ if (config.enableTiming) {
     const start = ms.now();
     await next();
     const end = ms.parse(ms.since(start));
-    const total = end.microseconds + (end.milliseconds * 1e3) + (end.seconds * 1e6);
+    const total = end.microseconds + end.milliseconds * 1e3 + end.seconds * 1e6;
     ctx.set('Response-Time', `${total / 1e3}ms`);
   });
 }
@@ -302,7 +280,7 @@ app.use(async (ctx, next) => {
       // Create a network request.  If we're running an internal server, this
       // will be a function that accepts the request's context, to feed through
       // to the GraphQL schema
-      networkInterface: createNeworkInterface(ctx),
+      networkInterface: getNetworkInterface(ctx),
       ...ctx.apollo.options,
     });
   }
@@ -386,10 +364,12 @@ config.routes.forEach(route => {
 // `koa-bodyparser` is used to process POST requests.  Check that it's enabled
 // (default) and apply a custom config if we need one
 if (config.enableBodyParser) {
-  app.use(require('koa-bodyparser')(
-    // Pass in any options that may have been set in userland
-    config.bodyParserOptions,
-  ));
+  app.use(
+    require('koa-bodyparser')(
+      // Pass in any options that may have been set in userland
+      config.bodyParserOptions,
+    ),
+  );
 }
 
 /* CUSTOM APP INSTANTIATION */
@@ -408,9 +388,7 @@ const listen = () => {
 
   // Plain HTTP
   if (config.enableHTTP) {
-    servers.push(
-      http.createServer(app.callback()).listen(process.env.PORT),
-    );
+    servers.push(http.createServer(app.callback()).listen(process.env.PORT));
   }
 
   // SSL -- only enable this if we have an `SSL_PORT` set on the environment

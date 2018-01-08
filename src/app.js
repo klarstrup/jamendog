@@ -14,6 +14,7 @@
 // IMPORTS
 
 /* ReactQL */
+import SGN from 'shopgun-sdk';
 
 // Config API, for adding reducers and configuring our ReactQL app
 import config from 'kit/config';
@@ -57,7 +58,48 @@ config.enableGraphQLServer();
 // Set our server config, by checking `SERVER` -- this code path will be
 // eliminated by Webpack in the browser, so we can safely add this.
 
+export const cookieStringToObject = (cookieHeader = '') =>
+  cookieHeader.split(';').reduce((memo, cookieString) => {
+    const [key, rawValue] = cookieString.trim().split('=');
+    let value;
+    try {
+      value = JSON.parse(rawValue);
+    } catch (err) {
+      value = rawValue;
+    }
+    return {
+      ...memo,
+      [key]: value,
+    };
+  }, {});
+
 if (SERVER) {
+  // API session keeping middleware
+  config.addMiddleware(async (ctx, next) => {
+    const { 'sgn-session': { token, client_id } = {} } = ctx.req.headers.cookie
+      ? cookieStringToObject(ctx.req.headers.cookie)
+      : {};
+    // Not happy with this, will leak session info/cause weird behavior with simultaneous requests
+    // Need to figure out having separate SGN instances per request
+    // Maybe update the SDK to let SGN be instantiated?
+    // Or giving SGN the ability to be reset
+    SGN.config.set({
+      coreSessionToken: undefined,
+      coreSessionClientId: undefined,
+    });
+    if (token && client_id) {
+      SGN.config.set({
+        coreSessionToken: token,
+        coreSessionClientId: client_id,
+      });
+    }
+    await next();
+    SGN.config.set({
+      coreSessionToken: undefined,
+      coreSessionClientId: undefined,
+    });
+  });
+
   /* SSL */
 
   // By default, the Koa web server runs on a plain HTTP server. However,
