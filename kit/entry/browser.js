@@ -56,10 +56,9 @@ const store = createNewStore(client);
 // (i.e. if we're in development), then we'll wrap the whole thing in an
 // <AppContainer>.  Otherwise, we'll jump straight to the browser router
 function doRender() {
-  ReactDOM.hydrate(
-    <Root />,
-    document.getElementById('main'),
-  );
+  const main = document.getElementById('main');
+  const renderOrHydrate = main.innerHTML.trim().length ? 'hydrate' : 'render';
+  ReactDOM[renderOrHydrate](<Root />, main);
 }
 
 // The <Root> component.  We'll run this as a self-contained function since
