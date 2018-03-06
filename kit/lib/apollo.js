@@ -4,28 +4,30 @@
 /* NPM */
 
 // Apollo client library
-import { ApolloClient } from 'react-apollo';
-import { execute } from 'graphql';
-import SGN from 'shopgun-sdk';
-import * as R from 'ramda';
+import { ApolloClient } from "apollo-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { execute } from "graphql";
+import SGN from "shopgun-sdk";
+import * as R from "ramda";
 
-import camelCaseObject from 'camelize';
+import camelCaseObject from "camelize";
 
 /* ReactQL */
 
 // Configuration
-import config from 'kit/config';
-import { getFragmentMatcher } from 'kit/lib/fragment_matcher';
+import config from "kit/config";
+import { getFragmentMatcher } from "kit/lib/fragment_matcher";
 
-import schema from '../../src/graphql/schema';
+import schema from "../../src/graphql/schema";
+import { ApolloLink, Observable } from "apollo-link";
 
 if (!SERVER) window.SGN = SGN;
 
 SGN.config.set({
-  appKey: '00jb5b3exqs9ad6qmpkloyfpzgzampso',
+  appKey: "00jb5b3exqs9ad6qmpkloyfpzgzampso",
   // We only need an appSecret when running in Node
   // In fact including it in the browser will break stuff
-  appSecret: SERVER ? '00jb5b3exq7ake194vxbvmu212ri6xm5' : undefined,
+  appSecret: SERVER ? "00jb5b3exq7ake194vxbvmu212ri6xm5" : undefined
 });
 
 export const REST = options =>
@@ -36,54 +38,101 @@ export const REST = options =>
         ...options,
         geolocation: {
           latitude: 55.6599125,
-          longitude: 12.4903421,
-        },
+          longitude: 12.4903421
+        }
       }),
       (error, response) => {
         if (error) {
           reject({ ...error, response });
         }
         resolve(camelCaseObject(response));
-      },
-    ));
+      }
+    )
+  );
 
 // ----------------------
-const dataIdFromObject = ({ __typename, id }) => __typename && id && `${__typename}:${id}`;
+const dataIdFromObject = ({ __typename, id }) =>
+  __typename && id && `${__typename}:${id}`;
 
 // Helper function to create a new Apollo client, by merging in
-// passed options alongside any set by `config.setApolloClientOptions` and defaults
-export function createClient(opt = {}) {
-  return new ApolloClient(
-    Object.assign(
-      {
-        reduxRootSelector: state => state.apollo,
-        dataIdFromObject,
-        fragmentMatcher: getFragmentMatcher(),
-      },
-      config.apolloClientOptions,
-      opt,
-    ),
-  );
-}
+// passed options alongside any set by `config.setApolloClientOptions` and defaultsm "apollo-link";
 
 const context = {};
+export class SchemaLink extends ApolloLink {
+  constructor({ schema, rootValue, context }) {
+    super();
+
+    this.schema = schema;
+    this.rootValue = rootValue;
+  }
+
+  request(operation) {
+    return new Observable(observer => {
+      (async () => {
+        if (!context.session) {
+          console.log("getting session");
+          context.session = await REST({ url: "/v2/sessions" });
+        } else {
+          console.log("not getting session");
+        }
+        return execute(
+          this.schema,
+          operation.query,
+          this.rootValue,
+          context,
+          operation.variables,
+          operation.operationName
+        );
+      })()
+        .then(data => {
+          if (!observer.closed) {
+            observer.next(data);
+            observer.complete();
+          }
+        })
+        .catch(error => {
+          if (!observer.closed) {
+            observer.error(error);
+          }
+        });
+    });
+  }
+}
+export function createClient(opt = {}) {
+  const cache = new InMemoryCache({
+    dataIdFromObject,
+    addTypename: true,
+    cacheResolvers: {},
+    fragmentMatcher: getFragmentMatcher()
+  });
+
+  const client = new ApolloClient({
+    link: new SchemaLink({ schema }),
+    // use restore on the cache instead of initialState
+    cache:
+      window && window.state && window.state.__APOLLO_CLIENT__
+        ? cache.restore(window.state.__APOLLO_CLIENT__)
+        : new InMemoryCache(),
+    ssrMode: true,
+    ssrForceFetchDelay: 100,
+    connectToDevTools: true,
+    queryDeduplication: true
+  });
+  return client;
+}
 
 export const getNetworkInterface = () => ({
   query: async ({ query, variables, operationName }) => {
-    if (!context.session) {
-      console.log('getting session');
-      context.session = await REST({ url: '/v2/sessions' });
-    } else {
-      console.log('not getting session');
-    }
-    return execute(schema, query, undefined, context, variables, operationName).catch(
-      console.error,
-    );
-  },
+    return execute(
+      schema,
+      query,
+      undefined,
+      context,
+      variables,
+      operationName
+    ).catch(console.error);
+  }
 });
 
 // Creates a new browser client
-export const browserClient = () =>
-  createClient({
-    networkInterface: getNetworkInterface(),
-  });
+export const browserClient = () => createClient();

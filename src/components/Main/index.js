@@ -10,7 +10,8 @@ import { slide as Menu } from 'react-burger-menu';
 
 import { Route, Switch, withRouter, Link } from 'react-router-dom';
 
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import { WhenNotFound } from 'components/routes';
 
