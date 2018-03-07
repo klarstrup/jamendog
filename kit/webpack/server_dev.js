@@ -22,6 +22,7 @@ import WebpackConfig from 'webpack-config';
 // building for production, we'll extract them out into a separate .css file
 // that can be called from our final HTML.  This plugin does the heavy lifting
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import MiniCssExtractPlugin  from 'mini-css-extract-plugin';
 
 // Copy files from `PATH.static` to `PATHS.distDev`
 import CopyWebpackPlugin from 'copy-webpack-plugin';
@@ -47,14 +48,17 @@ class ServerDevPlugin {
   }
 }
 
-const extractCSS = new ExtractTextPlugin({
-  filename: 'assets/css/style.css',
-  allChunks: true,
+const extractCSS = new MiniCssExtractPlugin({
+  // Options similar to the same options in webpackOptions.output
+  // both options are optional
+  filename: "[name].css",
+  chunkFilename: "[id].css"
 });
 
 export default [
   // Server bundle
   new WebpackConfig().extend('[root]/dev.js', '[root]/server.js').merge({
+    mode: 'development',
     watch: true,
     stats: 'none',
 
@@ -105,7 +109,7 @@ export default [
     module: {
       rules: [
         // CSS loaders
-        ...css.getExtractCSSLoaders(extractCSS, true /* sourceMaps = true */),
+        ...css.getExtractCSSLoaders(MiniCssExtractPlugin, true /* sourceMaps = true */),
       ],
     },
     plugins: [

@@ -35,7 +35,7 @@ export default new WebpackConfig().extend({
     return conf;
   },
 }).merge({
-
+  mode: 'production',
   stats: 'minimal',
 
   // Production server entry point

@@ -8,15 +8,15 @@
 // IMPORTS
 
 /* Node */
-import path from 'path';
+import path from "path";
 
 // FitBit's [webpack-config](https://fitbit.github.io/webpack-config/) lib for
 // breaking down complex configurations into multiple files for easier
 // extensibility
-import Config, { environment } from 'webpack-config';
+import Config, { environment } from "webpack-config";
 
 // Project paths configuration
-import PATHS from './config/paths';
+import PATHS from "./config/paths";
 
 // ----------------------
 
@@ -36,29 +36,29 @@ function load(file) {
 
   // If the config isn't already an array, add it to a new one, map over each
   // `webpack-config`, and create a 'regular' Webpack-compatible object
-  return (Array.isArray(wp) ? wp : [wp]).map(config => (
+  return (Array.isArray(wp) ? wp : [wp]).map(config =>
     new Config().merge(config).toObject()
-  ));
+  );
 }
 
 // Set the 'root' path to the 'webpack' dir in this folder
 environment.setAll({
-  root: () => PATHS.webpack,
+  root: () => PATHS.webpack
 });
 
 // Spawning webpack will be done through an `npm run ...` command, so we'll
 // map those npm options here to know which webpack config file to use
 const toExport = [];
 
-for (const build of (process.env.WEBPACK_CONFIG || '').trim().split(',')) {
+for (const build of (process.env.WEBPACK_CONFIG || "").trim().split(",")) {
   // Unwind the array into the final export
   if (build) toExport.push(...load(build));
 }
 
 // If we don't have any configs to export, yell!
 if (!toExport.length) {
-  console.error('Error: WEBPACK_CONFIG files not given');
+  console.error("Error: WEBPACK_CONFIG files not given");
   process.exit();
 }
-
+//console.log(toExport[0].module.rules[7]);
 export default toExport;

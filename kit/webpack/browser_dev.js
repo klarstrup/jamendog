@@ -48,6 +48,7 @@ export default new WebpackConfig().extend({
     return conf;
   },
 }, '[root]/dev.js').merge({
+  mode: 'development',
   module: {
     rules: [
       // CSS loaders
