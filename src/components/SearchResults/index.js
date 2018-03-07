@@ -26,9 +26,23 @@ export default class SearchResults extends React.Component {
             </li>
           ))}
         </ul>
-        <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+        <ul
+          style={{
+            margin: 0,
+            padding: 0,
+            listStyle: 'none',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'stretch',
+          }}>
           {getOffers.map(offer => (
-            <li key={offer.id}>
+            <li
+              key={offer.id}
+              style={{
+                flexGrow: 1,
+                padding: '8px',
+                maxWidth: '400px',
+              }}>
               <SearchResultsOffer offer={offer} />
             </li>
           ))}
