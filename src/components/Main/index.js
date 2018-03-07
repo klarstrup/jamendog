@@ -42,19 +42,15 @@ class GlobalSearch extends React.PureComponent {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      term: this.getTerm(nextProps) || ""
+      term: this.getTerm(nextProps) || "",
     });
   }
   getTerm = (props = this.props) => {
-    const [term] = (
-      pathToRegexp("/search/:term").exec(props.location.pathname) || []
-    ).slice(-1);
+    const [term] = (pathToRegexp("/search/:term").exec(props.location.pathname) || []).slice(-1);
     if (term) {
       return decodeURIComponent(term);
     }
-    return pathToRegexp("/search/").exec(props.location.pathname)
-      ? ""
-      : undefined;
+    return pathToRegexp("/search/").exec(props.location.pathname) ? "" : undefined;
   };
   handleChange = event => {
     const term = event.target.value;
@@ -105,49 +101,46 @@ class GlobalSearch extends React.PureComponent {
         left: "24px",
         top: "50%",
         transform: "translateY(-50%)",
-        display: "none"
+        display: "none",
       },
       bmBurgerBars: {
-        background: "#373a47"
+        background: "#373a47",
       },
       bmCrossButton: {
-        display: "none"
+        display: "none",
       },
       bmCross: {
-        background: "#bdc3c7"
+        background: "#bdc3c7",
       },
       bmMenuWrap: {
         left: 0,
         top: 0,
         //        maxWidth: '320px',
-        width: "calc(100vw - 64px)"
+        width: "calc(100vw - 64px)",
       },
       bmMenu: {
         background: "#FFFFFF",
         boxShadow:
-          "0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)"
+          "0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)",
       },
       bmMorphShape: {
-        fill: "#373a47"
+        fill: "#373a47",
       },
       bmItemList: {},
       bmOverlay: {
         background: "rgba(0, 0, 0, 0.3)",
         left: 0,
-        top: 0
-      }
+        top: 0,
+      },
     };
     return (
       <div>
-        <Helmet
-          defaultTitle="Jamen Dog - der er tilbud!"
-          titleTemplate="%s - Jamen Dog"
-        />
+        <Helmet defaultTitle="Jamen Dog - der er tilbud!" titleTemplate="%s - Jamen Dog" />
         <div
           style={{
             width: "100%",
             padding: "0.5em",
-            position: "relative"
+            position: "relative",
           }}
         >
           {focused || this.getTerm() !== undefined ? (
@@ -161,7 +154,7 @@ class GlobalSearch extends React.PureComponent {
                 transform: "translateY(-50%)",
                 padding: "0.5em 0.75em",
                 color: "#212121",
-                fontSize: "1.1em"
+                fontSize: "1.1em",
               }}
             >
               <MdArrowBack />
@@ -179,7 +172,7 @@ class GlobalSearch extends React.PureComponent {
                 fontSize: "1.1em",
                 transform: "translateY(-50%)",
                 border: 0,
-                background: "none"
+                background: "none",
               }}
             >
               <MdMenu />
@@ -204,7 +197,7 @@ class GlobalSearch extends React.PureComponent {
                 style={{
                   width: "24px",
                   height: "24px",
-                  verticalAlign: "bottom"
+                  verticalAlign: "bottom",
                 }}
                 alt="ShopGun Logo"
               />
@@ -224,7 +217,7 @@ class GlobalSearch extends React.PureComponent {
                 fontSize: "1.1em",
                 transform: "translateY(-50%)",
                 border: 0,
-                background: "none"
+                background: "none",
               }}
             >
               <MdFilterList />
@@ -239,7 +232,7 @@ class GlobalSearch extends React.PureComponent {
               border: 0,
               appearance: "none",
               fontSize: "1em",
-              padding: "0.75em 3em"
+              padding: "0.75em 3em",
             }}
             ref={el => {
               this.input = el;
@@ -290,18 +283,18 @@ class LogInForm extends React.Component {
       variables: {
         logIn: {
           email: e.currentTarget.email.value,
-          password: e.currentTarget.password.value
-        }
+          password: e.currentTarget.password.value,
+        },
       },
       update: (proxy, { data: { logIn } }) => {
         proxy.writeQuery({
           query: viewerQuery,
           data: {
             ...proxy.readQuery({ query: viewerQuery }),
-            viewer: logIn
-          }
+            viewer: logIn,
+          },
         });
-      }
+      },
     });
   };
   render() {
@@ -336,10 +329,10 @@ class LogOutForm extends React.Component {
           query: viewerQuery,
           data: {
             ...proxy.readQuery({ query: viewerQuery }),
-            viewer: logOut
-          }
+            viewer: logOut,
+          },
         });
-      }
+      },
     });
   };
   render() {

@@ -14,22 +14,22 @@
 // IMPORTS
 
 /* ReactQL */
-import SGN from 'shopgun-sdk';
+import SGN from "shopgun-sdk";
 
 // Config API, for adding reducers and configuring our ReactQL app
-import config from 'kit/config';
+import config from "kit/config";
 
 /* App */
 
 // Example counter reducer.  This simply increments the counter by +1
-import counterReducer from 'reducers/counter';
+import counterReducer from "reducers/counter";
 
 // Main component -- i.e. the 'root' React component in our app
-import Main from 'components/Main';
+import Main from "components/Main";
 
 // Init global styles.  These will be added to the resulting CSS automatically
 // without any class hashing.  Use this to include default or framework CSS.
-import './styles.global.css';
+import "./styles.global.css";
 
 // ----------------------
 
@@ -39,7 +39,7 @@ import './styles.global.css';
 // Note:  The initial state (3rd param) will automatically be wrapped in
 // `seamless-immutable` by the kit's Redux init code, so plain objects are
 // automatically immutable by default
-config.addReducer('counter', counterReducer, { count: 0 });
+config.addReducer("counter", counterReducer, { count: 0 });
 
 /* GRAPHQL */
 
@@ -58,9 +58,9 @@ config.enableGraphQLServer();
 // Set our server config, by checking `SERVER` -- this code path will be
 // eliminated by Webpack in the browser, so we can safely add this.
 
-export const cookieStringToObject = (cookieHeader = '') =>
-  cookieHeader.split(';').reduce((memo, cookieString) => {
-    const [key, rawValue] = cookieString.trim().split('=');
+export const cookieStringToObject = (cookieHeader = "") =>
+  cookieHeader.split(";").reduce((memo, cookieString) => {
+    const [key, rawValue] = cookieString.trim().split("=");
     let value;
     try {
       value = JSON.parse(rawValue);
@@ -76,7 +76,7 @@ export const cookieStringToObject = (cookieHeader = '') =>
 if (SERVER) {
   // API session keeping middleware
   config.addMiddleware(async (ctx, next) => {
-    const { 'sgn-session': { token, client_id } = {} } = ctx.req.headers.cookie
+    const { "sgn-session": { token, client_id } = {} } = ctx.req.headers.cookie
       ? cookieStringToObject(ctx.req.headers.cookie)
       : {};
     // Not happy with this, will leak session info/cause weird behavior with simultaneous requests
@@ -134,13 +134,13 @@ if (SERVER) {
   // Pass in the schema to use for our internal GraphQL server.  Note we're
   // doing this inside a `SERVER` block to avoid importing a potentially large
   // file, which would then inflate our client bundle unnecessarily
-  config.setGraphQLSchema(require('src/graphql/schema').default);
+  config.setGraphQLSchema(require("src/graphql/schema").default);
 
   /* CUSTOM ROUTES */
 
   // We can add custom routes to the web server easily, by using
   // `config.add<Get|Post|Put|Patch>Route()`.  Note:  These are server routes only.
-  config.addGetRoute('/test', async ctx => {
+  config.addGetRoute("/test", async ctx => {
     // For demo purposes, let's get a JSON dump of the current Redux state
     // to see that we can expect its contents
     const stateDump = JSON.stringify(ctx.store.getState());
@@ -192,8 +192,8 @@ if (SERVER) {
     // Mimic the default behaviour with an overriden message, so we know it's
     // working
     // eslint-disable-next-line no-console
-    console.log('Custom error: ', e.message);
-    ctx.body = 'Some kind of error. Check your source code.';
+    console.log("Custom error: ", e.message);
+    ctx.body = "Some kind of error. Check your source code.";
   });
 
   /* CUSTOM KOA APP INSTANTIATION */
@@ -206,16 +206,16 @@ if (SERVER) {
     // prototype (that per-request `ctx` extends) that can be
     // used in the middleware below, to set a `Powered-By` header.
     // eslint-disable-next-line no-param-reassign
-    app.context.engine = 'ReactQL';
+    app.context.engine = "ReactQL";
 
     // We'll also add a generic error handler, that prints out to the console.
     // Note: This is a 'lower-level' than `config.setErrorHandler()` because
     // it's not middleware -- it's for errors that happen at the server level
-    app.on('error', e => {
+    app.on("error", e => {
       // This function should never show up, because `config.setErrorHandler()`
       // is already catching errors -- but just an FYI for what you might do.
       // eslint-disable-next-line no-console
-      console.error('Server error:', e);
+      console.error("Server error:", e);
     });
   });
 
@@ -232,12 +232,12 @@ if (SERVER) {
   // ... and 'after' middleware, which runs after per-request instantiation.
   // Let's use the latter to add a custom header so we can see middleware in action
   config.addMiddleware(async (ctx, next) => {
-    ctx.set('Powered-By', ctx.engine); // <-- `ctx.engine` from `config.getKoaApp()` above!
+    ctx.set("Powered-By", ctx.engine); // <-- `ctx.engine` from `config.getKoaApp()` above!
 
     // For the fun of it, let's demonstrate that we can fire Redux actions
     // and it'll manipulate the state on the server side!  View the SSR version
     // to see that the counter is now 1 and has been passed down the wire
-    ctx.store.dispatch({ type: 'INCREMENT_COUNTER' });
+    ctx.store.dispatch({ type: "INCREMENT_COUNTER" });
 
     // Always return `next()`, otherwise the request won't 'pass' to the next
     // middleware in the stack (likely, the React handler)

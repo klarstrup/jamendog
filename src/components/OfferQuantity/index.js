@@ -1,3 +1,3 @@
-import OfferQuantity from './OfferQuantity';
+import OfferQuantity from "./OfferQuantity";
 
 export default OfferQuantity;

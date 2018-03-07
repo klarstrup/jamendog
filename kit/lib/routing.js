@@ -4,15 +4,15 @@
 // IMPORTS
 
 /* NPM */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 // Browser history, that we can use to control URL pushstate throughout our
 // entire app
-import createBrowserHistory from 'history/createBrowserHistory';
+import createBrowserHistory from "history/createBrowserHistory";
 
 // React Router
-import { Route, Redirect as ReactRouterRedirect } from 'react-router-dom';
+import { Route, Redirect as ReactRouterRedirect } from "react-router-dom";
 
 // ----------------------
 
@@ -25,21 +25,23 @@ class Status extends React.PureComponent {
   static propTypes = {
     code: PropTypes.number.isRequired,
     children: PropTypes.node,
-  }
+  };
 
   static defaultProps = {
     children: null,
-  }
+  };
 
   render() {
     const { code, children } = this.props;
     return (
-      <Route render={({ staticContext }) => {
-        if (staticContext) {
-          staticContext.status = code;
-        }
-        return children;
-      }} />
+      <Route
+        render={({ staticContext }) => {
+          if (staticContext) {
+            staticContext.status = code;
+          }
+          return children;
+        }}
+      />
     );
   }
 }
@@ -51,20 +53,16 @@ class Status extends React.PureComponent {
 export class NotFound extends React.PureComponent {
   static propTypes = {
     children: PropTypes.node,
-  }
+  };
 
   static defaultProps = {
     children: null,
-  }
+  };
 
   render() {
     const { children } = this.props;
 
-    return (
-      <Status code={404}>
-        {children}
-      </Status>
-    );
+    return <Status code={404}>{children}</Status>;
   }
 }
 
@@ -72,10 +70,7 @@ export class NotFound extends React.PureComponent {
 // except it sets a 301/302 status code for setting server-side HTTP headers.
 export class Redirect extends React.PureComponent {
   static propTypes = {
-    to: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ]).isRequired,
+    to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     from: PropTypes.string,
     push: PropTypes.bool,
     permanent: PropTypes.bool,
@@ -85,15 +80,10 @@ export class Redirect extends React.PureComponent {
     from: null,
     push: false,
     permanent: false,
-  }
+  };
 
   render() {
-    const {
-      to,
-      from,
-      push,
-      permanent,
-    } = this.props;
+    const { to, from, push, permanent } = this.props;
 
     const code = permanent ? 301 : 302;
     return (

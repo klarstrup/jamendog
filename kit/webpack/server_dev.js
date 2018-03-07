@@ -10,26 +10,26 @@
 // IMPORTS
 
 /* Node */
-import path from 'path';
-import childProcess from 'child_process';
+import path from "path";
+import childProcess from "child_process";
 
 /* NPM */
 
-import webpack from 'webpack';
-import WebpackConfig from 'webpack-config';
+import webpack from "webpack";
+import WebpackConfig from "webpack-config";
 
 // In dev, we inlined stylesheets inside our JS bundles.  Now that we're
 // building for production, we'll extract them out into a separate .css file
 // that can be called from our final HTML.  This plugin does the heavy lifting
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import MiniCssExtractPlugin  from 'mini-css-extract-plugin';
+import ExtractTextPlugin from "extract-text-webpack-plugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 // Copy files from `PATH.static` to `PATHS.distDev`
-import CopyWebpackPlugin from 'copy-webpack-plugin';
+import CopyWebpackPlugin from "copy-webpack-plugin";
 
 /* Local */
-import { css } from './common';
-import PATHS from '../../config/paths';
+import { css } from "./common";
+import PATHS from "../../config/paths";
 
 // ----------------------
 
@@ -37,12 +37,12 @@ import PATHS from '../../config/paths';
 // every build
 class ServerDevPlugin {
   apply(compiler) {
-    compiler.plugin('done', () => {
+    compiler.plugin("done", () => {
       if (this.server) this.server.kill();
-      this.server = childProcess.fork(path.resolve(PATHS.dist, 'server_dev.js'), {
+      this.server = childProcess.fork(path.resolve(PATHS.dist, "server_dev.js"), {
         cwd: PATHS.dist,
         silent: false,
-        execArgv: ['--inspect'],
+        execArgv: ["--inspect"],
       });
     });
   }
@@ -52,41 +52,39 @@ const extractCSS = new MiniCssExtractPlugin({
   // Options similar to the same options in webpackOptions.output
   // both options are optional
   filename: "[name].css",
-  chunkFilename: "[id].css"
+  chunkFilename: "[id].css",
 });
 
 export default [
   // Server bundle
-  new WebpackConfig().extend('[root]/dev.js', '[root]/server.js').merge({
-    mode: 'development',
+  new WebpackConfig().extend("[root]/dev.js", "[root]/server.js").merge({
+    mode: "development",
     watch: true,
-    stats: 'none',
+    stats: "none",
 
     // Production server entry point
     entry: {
-      javascript: [
-        path.resolve(PATHS.entry, 'server_dev.js'),
-      ],
+      javascript: [path.resolve(PATHS.entry, "server_dev.js")],
     },
 
     // Output to the `dist` folder
     output: {
       path: PATHS.dist,
-      filename: 'server_dev.js',
+      filename: "server_dev.js",
     },
 
     plugins: [
       new webpack.DefinePlugin({
         // We ARE running on the server
         SERVER: true,
-        'process.env': {
+        "process.env": {
           // Point the server host/port to the production server
-          HOST: JSON.stringify(process.env.HOST || 'localhost'),
-          PORT: JSON.stringify(process.env.PORT || '8081'),
+          HOST: JSON.stringify(process.env.HOST || "localhost"),
+          PORT: JSON.stringify(process.env.PORT || "8081"),
           SSL_PORT: process.env.SSL_PORT ? JSON.stringify(process.env.SSL_PORT) : null,
 
           // Debug development
-          NODE_ENV: JSON.stringify('development'),
+          NODE_ENV: JSON.stringify("development"),
           DEBUG: true,
         },
       }),
@@ -97,13 +95,13 @@ export default [
   }),
 
   // Browser bundle
-  new WebpackConfig().extend('[root]/dev.js', '[root]/browser.js').merge({
+  new WebpackConfig().extend("[root]/dev.js", "[root]/browser.js").merge({
     watch: true,
-    stats: 'none',
+    stats: "none",
 
     output: {
       path: PATHS.distDev,
-      filename: '[name].js',
+      filename: "[name].js",
     },
 
     module: {
@@ -116,14 +114,14 @@ export default [
       new webpack.DefinePlugin({
         // We're not running on the server
         SERVER: false,
-        'process.env': {
+        "process.env": {
           // Point the server host/port to the dev server
-          HOST: JSON.stringify(process.env.HOST || 'localhost'),
-          PORT: JSON.stringify(process.env.PORT || '8081'),
+          HOST: JSON.stringify(process.env.HOST || "localhost"),
+          PORT: JSON.stringify(process.env.PORT || "8081"),
           SSL_PORT: process.env.SSL_PORT ? JSON.stringify(process.env.SSL_PORT) : null,
 
           // Debug development
-          NODE_ENV: JSON.stringify('development'),
+          NODE_ENV: JSON.stringify("development"),
           DEBUG: true,
         },
       }),

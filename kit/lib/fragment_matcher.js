@@ -6,16 +6,16 @@ export const FragmentMatcher = [
     name: "SearchResult",
     possibleTypes: [
       {
-        name: "Offer"
+        name: "Offer",
       },
       {
-        name: "Business"
+        name: "Business",
       },
       {
-        name: "PagedPublication"
-      }
-    ]
-  }
+        name: "PagedPublication",
+      },
+    ],
+  },
 ];
 
 export const addToFragmentMatcher = fragmentMatcher => {
@@ -26,9 +26,9 @@ export const getFragmentMatcher = () => {
   const fm = {
     introspectionQueryResultData: {
       __schema: {
-        types: FragmentMatcher
-      }
-    }
+        types: FragmentMatcher,
+      },
+    },
   };
   return new IntrospectionFragmentMatcher(fm);
 };

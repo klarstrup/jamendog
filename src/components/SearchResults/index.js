@@ -1,15 +1,17 @@
-import React from 'react';
-import Helmet from 'react-helmet';
+import React from "react";
+import Helmet from "react-helmet";
 
-import { graphql } from 'react-apollo';
+import { graphql } from "react-apollo";
 
-import SEARCH_QUERY from './SearchQuery.graphql';
+import SEARCH_QUERY from "./SearchQuery.graphql";
 
-import SearchResultsOffer from '../SearchResultsOffer';
-import SearchResultsBusiness from '../SearchResultsBusiness';
+import SearchResultsOffer from "../SearchResultsOffer";
+import SearchResultsBusiness from "../SearchResultsBusiness";
 
 @graphql(SEARCH_QUERY, {
-  options: ({ match: { params: { term } } }) => ({ variables: { term: decodeURI(term) } }),
+  options: ({ match: { params: { term } } }) => ({
+    variables: { term: decodeURI(term) },
+  }),
 })
 export default class SearchResults extends React.Component {
   render() {
@@ -19,7 +21,7 @@ export default class SearchResults extends React.Component {
         <Helmet>
           <title>{term}</title>
         </Helmet>
-        <ul style={{ margin: 0, padding: 0, listStyle: 'none' }}>
+        <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
           {getBusinesses.map(business => (
             <li key={business.id}>
               <SearchResultsBusiness business={business} />
@@ -30,19 +32,21 @@ export default class SearchResults extends React.Component {
           style={{
             margin: 0,
             padding: 0,
-            listStyle: 'none',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'stretch',
-          }}>
+            listStyle: "none",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "stretch",
+          }}
+        >
           {getOffers.map(offer => (
             <li
               key={offer.id}
               style={{
                 flexGrow: 1,
-                padding: '8px',
-                maxWidth: '400px',
-              }}>
+                padding: "8px",
+                maxWidth: "400px",
+              }}
+            >
               <SearchResultsOffer offer={offer} />
             </li>
           ))}

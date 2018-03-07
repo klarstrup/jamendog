@@ -11,20 +11,20 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2017,
     sourceType: "module",
-    jsx: true
+    jsx: true,
   },
   env: {
     node: true,
-    browser: true
+    browser: true,
   },
   settings: {
     "import/resolver": {
       node: {
-        paths: [PATHS.src, PATHS.root, "node_modules"]
-      }
-    }
+        paths: [PATHS.src, PATHS.root, "node_modules"],
+      },
+    },
   },
   globals: {
-    SERVER: false
-  }
+    SERVER: false,
+  },
 };

@@ -36,14 +36,12 @@ function load(file) {
 
   // If the config isn't already an array, add it to a new one, map over each
   // `webpack-config`, and create a 'regular' Webpack-compatible object
-  return (Array.isArray(wp) ? wp : [wp]).map(config =>
-    new Config().merge(config).toObject()
-  );
+  return (Array.isArray(wp) ? wp : [wp]).map(config => new Config().merge(config).toObject());
 }
 
 // Set the 'root' path to the 'webpack' dir in this folder
 environment.setAll({
-  root: () => PATHS.webpack
+  root: () => PATHS.webpack,
 });
 
 // Spawning webpack will be done through an `npm run ...` command, so we'll

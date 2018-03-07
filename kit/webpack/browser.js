@@ -27,8 +27,8 @@ export default new WebpackConfig().extend("[root]/base.js").merge({
     // Client specific source code.  This is the stuff we write.
     browser: [
       // Entry point for the browser
-      path.join(PATHS.entry, "browser.js")
-    ]
+      path.join(PATHS.entry, "browser.js"),
+    ],
   },
 
   // Set-up some common mocks/polyfills for features available in node, so
@@ -37,7 +37,7 @@ export default new WebpackConfig().extend("[root]/base.js").merge({
     console: true,
     fs: "empty",
     net: "empty",
-    tls: "empty"
+    tls: "empty",
   },
 
   // Modules specific to our browser bundle
@@ -62,23 +62,23 @@ export default new WebpackConfig().extend("[root]/base.js").merge({
                     modules: false,
                     // Exclude default regenerator-- we want to enable async/await
                     // so we'll do that with a dedicated plugin
-                    exclude: ["transform-regenerator"]
-                  }
+                    exclude: ["transform-regenerator"],
+                  },
                 ],
                 // Transpile JSX code
-                "react"
+                "react",
               ],
               plugins: [
                 "transform-object-rest-spread",
                 "syntax-dynamic-import",
                 "transform-regenerator",
                 "transform-class-properties",
-                "transform-decorators-legacy"
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
+                "transform-decorators-legacy",
+              ],
+            },
+          },
+        ],
+      },
+    ],
+  },
 });

@@ -106,11 +106,11 @@ export function staticMiddleware() {
           process.env.NODE_ENV === "production"
             ? {
                 root: PATHS.public,
-                immutable: true
+                immutable: true,
               }
             : {
-                root: PATHS.distDev
-              }
+                root: PATHS.distDev,
+              },
         );
       }
     } catch (e) {
@@ -185,13 +185,13 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
         window={{
           webpackManifest: chunkManifest,
           __STATE__: ctx.store.getState(),
-          __APOLLO_STATE__: ctx.apollo.client.extract()
+          __APOLLO_STATE__: ctx.apollo.client.extract(),
         }}
         css={css}
         scripts={scripts}
       >
         {components}
-      </Html>
+      </Html>,
     );
 
     // Pipe the React stream to the HTML output
@@ -273,7 +273,7 @@ app.use(async (ctx, next) => {
   if (!ctx.apollo.client) {
     ctx.apollo.client = createClient({
       ssrMode: true,
-      ...ctx.apollo.options
+      ...ctx.apollo.options,
     });
   }
 
@@ -311,8 +311,8 @@ if (config.graphQLServer) {
       // Bind the current request context, so it's accessible within GraphQL
       context,
       // Attach the GraphQL schema
-      schema: config.graphQLSchema
-    }))
+      schema: config.graphQLSchema,
+    })),
   );
 }
 
@@ -341,8 +341,8 @@ if (config.graphiQL) {
   router.get(
     graphiQLEndpoint,
     graphiqlKoa({
-      endpointURL: config.graphQLEndpoint
-    })
+      endpointURL: config.graphQLEndpoint,
+    }),
   );
 }
 
@@ -359,8 +359,8 @@ if (config.enableBodyParser) {
   app.use(
     require("koa-bodyparser")(
       // Pass in any options that may have been set in userland
-      config.bodyParserOptions
-    )
+      config.bodyParserOptions,
+    ),
   );
 }
 
@@ -386,9 +386,7 @@ const listen = () => {
   // SSL -- only enable this if we have an `SSL_PORT` set on the environment
   if (process.env.SSL_PORT) {
     servers.push(
-      https
-        .createServer(config.sslOptions, app.callback())
-        .listen(process.env.SSL_PORT)
+      https.createServer(config.sslOptions, app.callback()).listen(process.env.SSL_PORT),
     );
   }
 
@@ -399,5 +397,5 @@ const listen = () => {
 export default {
   router,
   app,
-  listen
+  listen,
 };

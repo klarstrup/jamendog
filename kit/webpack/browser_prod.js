@@ -20,7 +20,7 @@ import WebpackConfig from "webpack-config";
 // building for production, we'll extract them out into a separate .css file
 // that can be called from our final HTML.  This plugin does the heavy lifting
 import ExtractTextPlugin from "extract-text-webpack-plugin";
-import MiniCssExtractPlugin  from 'mini-css-extract-plugin';
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 // Compression plugin for generating `.gz` static files
 import ZopfliPlugin from "zopfli-webpack-plugin";
@@ -62,7 +62,7 @@ const extractCSS = new MiniCssExtractPlugin({
   // both options are optional
   filename: "assets/css/style.[contenthash].css",
   chunkFilename: "[id].css",
-  allChunks: true
+  allChunks: true,
 });
 
 // Extend the `browser.js` config
@@ -70,29 +70,27 @@ export default new WebpackConfig()
   .extend({
     "[root]/browser.js": config => {
       // Optimise images
-      config.module.rules
-        .find(l => l.test.toString() === regex.images.toString())
-        .use.push({
-          loader: "image-webpack-loader",
-          // workaround for https://github.com/tcoopman/image-webpack-loader/issues/88
-          options: {}
-        });
+      config.module.rules.find(l => l.test.toString() === regex.images.toString()).use.push({
+        loader: "image-webpack-loader",
+        // workaround for https://github.com/tcoopman/image-webpack-loader/issues/88
+        options: {},
+      });
 
       return config;
-    }
+    },
   })
   .merge({
     mode: "production",
     output: {
       // Filenames will be <name>.<chunkhash>.js in production on the browser
       filename: "[name].[chunkhash].js",
-      chunkFilename: "[name].[chunkhash].js"
+      chunkFilename: "[name].[chunkhash].js",
     },
     module: {
       rules: [
         // CSS loaders
-        ...css.getExtractCSSLoaders(MiniCssExtractPlugin)
-      ]
+        ...css.getExtractCSSLoaders(MiniCssExtractPlugin),
+      ],
     },
     // Minify, optimise
     optimization: {
@@ -100,16 +98,16 @@ export default new WebpackConfig()
         cacheGroups: {
           manifest: {
             name: "manifest",
-            minChunks: Infinity
-          }
-        }
-      }
+            minChunks: Infinity,
+          },
+        },
+      },
     },
     plugins: [
       webpackProgress(
-        `${chalk.magenta.bold(
-          "ReactQL browser bundle"
-        )} in ${chalk.bgMagenta.white.bold("production mode")}`
+        `${chalk.magenta.bold("ReactQL browser bundle")} in ${chalk.bgMagenta.white.bold(
+          "production mode",
+        )}`,
       ),
 
       // Global variables
@@ -120,14 +118,12 @@ export default new WebpackConfig()
           // Point the server host/port to the production server
           HOST: JSON.stringify(process.env.HOST || "localhost"),
           PORT: JSON.stringify(process.env.PORT || "4000"),
-          SSL_PORT: process.env.SSL_PORT
-            ? JSON.stringify(process.env.SSL_PORT)
-            : null,
+          SSL_PORT: process.env.SSL_PORT ? JSON.stringify(process.env.SSL_PORT) : null,
 
           // Optimise React, etc
           NODE_ENV: JSON.stringify("production"),
-          DEBUG: false
-        }
+          DEBUG: false,
+        },
       }),
 
       // Check for errors, and refuse to emit anything with issues
@@ -143,7 +139,7 @@ export default new WebpackConfig()
         algorithm: "zopfli",
         // Overwrite the default 80% compression-- anything is better than
         // nothing
-        minRatio: 0.99
+        minRatio: 0.99,
       }),
 
       // Also generate .br files, with Brotli compression-- often significantly
@@ -151,7 +147,7 @@ export default new WebpackConfig()
       new BrotliPlugin({
         // Overwrite the default 80% compression-- anything is better than
         // nothing
-        minRatio: 0.99
+        minRatio: 0.99,
       }),
 
       // Fire up CSS extraction
@@ -168,14 +164,14 @@ export default new WebpackConfig()
         fileName: "../manifest.json",
         // Prefix assets with '/' so that they can be referenced from any route
         publicPath: "",
-        inlineManifest: true
+        inlineManifest: true,
       }),
 
       // Output interactive bundle report
       new BundleAnalyzerPlugin({
         analyzerMode: "static",
         reportFilename: join(PATHS.dist, "report.html"),
-        openAnalyzer: !!process.env.BUNDLE_ANALYZER
+        openAnalyzer: !!process.env.BUNDLE_ANALYZER,
       }),
 
       // Enable scope hoisting to speed up JS loading
@@ -186,8 +182,8 @@ export default new WebpackConfig()
       new CopyWebpackPlugin([
         {
           from: PATHS.static,
-          force: true // This flag forces overwrites between versions
-        }
-      ])
-    ]
+          force: true, // This flag forces overwrites between versions
+        },
+      ]),
+    ],
   });

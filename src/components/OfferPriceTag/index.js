@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import OfferQuantity from 'components/OfferQuantity';
-import OfferUnitPrice from 'components/OfferUnitPrice';
-import css from './index.scss';
+import OfferQuantity from "components/OfferQuantity";
+import OfferUnitPrice from "components/OfferUnitPrice";
+import css from "./index.scss";
 
 const formatPrice = (price, { locale }) => {
   const priceHasDecimal = price % 1 !== 0;
   return `${price.toLocaleString(locale, {
     maximumFractionDigits: 2,
-  })}${priceHasDecimal ? '' : ',-'}`;
+  })}${priceHasDecimal ? "" : ",-"}`;
 };
 
-const OfferPriceTag = ({ locale = 'da-DK', pricing, quantity, block }) => {
+const OfferPriceTag = ({ locale = "da-DK", pricing, quantity, block }) => {
   const { unit, size, pieces } = quantity;
   const { from: sizeFrom = 0, to: sizeTo = 0 } = size;
   const { from: piecesFrom = 0, to: piecesTo = 0 } = pieces;
@@ -46,13 +46,14 @@ const OfferPriceTag = ({ locale = 'da-DK', pricing, quantity, block }) => {
       {presentation && (
         <div
           style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-around',
-            fontSize: '1em',
-            marginLeft: '0.5em',
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-around",
+            fontSize: "1em",
+            marginLeft: "0.5em",
             flex: 1,
-          }}>
+          }}
+        >
           <span className={css.quantity}>
             <OfferQuantity quantity={quantity} />
           </span>

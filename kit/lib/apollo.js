@@ -27,7 +27,7 @@ SGN.config.set({
   appKey: "00jb5b3exqs9ad6qmpkloyfpzgzampso",
   // We only need an appSecret when running in Node
   // In fact including it in the browser will break stuff
-  appSecret: SERVER ? "00jb5b3exq7ake194vxbvmu212ri6xm5" : undefined
+  appSecret: SERVER ? "00jb5b3exq7ake194vxbvmu212ri6xm5" : undefined,
 });
 
 export const REST = options =>
@@ -38,21 +38,20 @@ export const REST = options =>
         ...options,
         geolocation: {
           latitude: 55.6599125,
-          longitude: 12.4903421
-        }
+          longitude: 12.4903421,
+        },
       }),
       (error, response) => {
         if (error) {
           reject({ ...error, response });
         }
         resolve(camelCaseObject(response));
-      }
-    )
+      },
+    ),
   );
 
 // ----------------------
-const dataIdFromObject = ({ __typename, id }) =>
-  __typename && id && `${__typename}:${id}`;
+const dataIdFromObject = ({ __typename, id }) => __typename && id && `${__typename}:${id}`;
 
 // Helper function to create a new Apollo client, by merging in
 // passed options alongside any set by `config.setApolloClientOptions` and defaultsm "apollo-link";
@@ -81,7 +80,7 @@ export class SchemaLink extends ApolloLink {
           this.rootValue,
           context,
           operation.variables,
-          operation.operationName
+          operation.operationName,
         );
       })()
         .then(data => {
@@ -102,37 +101,30 @@ export function createClient(opt = {}) {
   const cache = new InMemoryCache({
     dataIdFromObject,
     addTypename: true,
-    fragmentMatcher: getFragmentMatcher()
+    fragmentMatcher: getFragmentMatcher(),
   });
 
   const client = new ApolloClient({
     link: new SchemaLink({ schema }),
     // use restore on the cache instead of initialState
     cache:
-      typeof window !== "undefined" &&
-      window &&
-      window.__APOLLO_STATE__
+      typeof window !== "undefined" && window && window.__APOLLO_STATE__
         ? cache.restore(window.__APOLLO_STATE__)
         : new InMemoryCache(),
     ssrForceFetchDelay: 100,
     connectToDevTools: true,
     queryDeduplication: true,
-    ...opt
+    ...opt,
   });
   return client;
 }
 
 export const getNetworkInterface = () => ({
   query: async ({ query, variables, operationName }) => {
-    return execute(
-      schema,
-      query,
-      undefined,
-      context,
-      variables,
-      operationName
-    ).catch(console.error);
-  }
+    return execute(schema, query, undefined, context, variables, operationName).catch(
+      console.error,
+    );
+  },
 });
 
 // Creates a new browser client

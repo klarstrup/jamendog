@@ -26,7 +26,7 @@ class Common {
   // Adds a new reducer.  Accepts a `key` string, a `reducer` function, and a
   // (by default empty) `initialState` object, which will ultimately become immutable
   addReducer(key, reducer, initialState = {}) {
-    if (typeof reducer !== 'function') {
+    if (typeof reducer !== "function") {
       throw new Error(`Can't add reducer for '${key}' - reducer must be a function`);
     }
     this.reducers.set(key, {
@@ -39,7 +39,7 @@ class Common {
 
   // Enables internal GraphQL server.  Default GraphQL and GraphiQL endpoints
   // can be overridden
-  enableGraphQLServer(endpoint = '/graphql', graphiQL = true) {
+  enableGraphQLServer(endpoint = "/graphql", graphiQL = true) {
     this.graphQLServer = true;
     this.graphQLEndpoint = endpoint;
     this.graphiQL = graphiQL;
@@ -139,8 +139,8 @@ if (SERVER) {
     // in the certificate details here and it'll respond to SSL requests
     enableSSL(opt) {
       // At a minimum, we should have `key` and `cert` -- check for those
-      if (typeof opt !== 'object' || !opt.key || !opt.cert) {
-        throw new Error('Cannot enable SSL. Missing `key` and/or `cert`');
+      if (typeof opt !== "object" || !opt.key || !opt.cert) {
+        throw new Error("Cannot enable SSL. Missing `key` and/or `cert`");
       }
       this.sslOptions = opt;
     }
@@ -185,8 +185,8 @@ if (SERVER) {
     // simply return a 404 status code without modifying the HTML render.  By
     // setting a handler here, this will be returned instead
     set404Handler(func) {
-      if (typeof func !== 'function') {
-        throw new Error('404 handler must be a function');
+      if (typeof func !== "function") {
+        throw new Error("404 handler must be a function");
       }
       this.handler404 = func;
     }
@@ -195,8 +195,8 @@ if (SERVER) {
     // 'There was an error. Please try again later.' message, and log the output
     // to the console.  Override that behaviour by passing a (e, ctx, next) -> {} func
     setErrorHandler(func) {
-      if (typeof func !== 'function') {
-        throw new Error('Error handler must be a function');
+      if (typeof func !== "function") {
+        throw new Error("Error handler must be a function");
       }
       this.errorHandler = func;
     }
@@ -222,27 +222,27 @@ if (SERVER) {
 
     // Adds custom GET route
     addGetRoute(route, ...handlers) {
-      this.addRoute('get', route, ...handlers);
+      this.addRoute("get", route, ...handlers);
     }
 
     // Adds custom POST route
     addPostRoute(route, ...handlers) {
-      this.addRoute('post', route, ...handlers);
+      this.addRoute("post", route, ...handlers);
     }
 
     // Adds custom PUT route
     addPutRoute(route, ...handlers) {
-      this.addRoute('put', route, ...handlers);
+      this.addRoute("put", route, ...handlers);
     }
 
     // Adds custom PATCH route
     addPatchRoute(route, ...handlers) {
-      this.addRoute('patch', route, ...handlers);
+      this.addRoute("patch", route, ...handlers);
     }
 
     // Adds custom DELETE route
     addDeleteRoute(route, ...handlers) {
-      this.addRoute('delete', route, ...handlers);
+      this.addRoute("delete", route, ...handlers);
     }
 
     // Set the GraphQL schema. This should only be called on the server, otherwise

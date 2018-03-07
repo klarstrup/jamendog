@@ -6,12 +6,12 @@
 // IMPORTS
 
 /* NPM */
-import WebpackConfig from 'webpack-config';
+import WebpackConfig from "webpack-config";
 
 // ----------------------
 
 export default new WebpackConfig().merge({
   // Add source maps
-  mode: 'development',
-  devtool: 'source-map',
+  mode: "development",
+  devtool: "source-map",
 });

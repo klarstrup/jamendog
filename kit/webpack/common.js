@@ -16,7 +16,7 @@ import chalk from "chalk";
 // RegExp for file types
 export const regex = {
   fonts: /\.(woff|woff2|(o|t)tf|eot)$/i,
-  images: /\.(jpe?g|png|gif|svg)$/i
+  images: /\.(jpe?g|png|gif|svg)$/i,
 };
 
 export const css = {
@@ -24,22 +24,22 @@ export const css = {
   rules: [
     {
       ext: "css",
-      use: []
+      use: [],
     },
     {
       ext: "s(c|a)ss",
       use: [
         {
-          loader: "resolve-url-loader"
+          loader: "resolve-url-loader",
         },
         {
           loader: "sass-loader",
           options: {
-            sourceMap: true
-          }
-        }
-      ]
-    }
+            sourceMap: true,
+          },
+        },
+      ],
+    },
   ],
 
   // Defaults to use with `css-loader` in all environments
@@ -51,7 +51,7 @@ export const css = {
     localIdentName: "[local]-[hash:base64]",
 
     // Retain the loader pipeline
-    importLoaders: 1
+    importLoaders: 1,
   },
 
   // Return an array containing the module RegExp and css-loader config,
@@ -59,7 +59,7 @@ export const css = {
   getModuleRegExp(ext) {
     return [
       [`^(?!.*\\.global\\.${ext}$).*\\.${ext}$`, { modules: true }],
-      [`\\.global\\.${ext}$`, { modules: false }]
+      [`\\.global\\.${ext}$`, { modules: false }],
     ];
   },
 
@@ -79,19 +79,19 @@ export const css = {
                   css.loaderDefaults,
                   {
                     // Use sourcemaps in development
-                    sourceMap: true
+                    sourceMap: true,
                   },
-                  mod[1]
-                )
+                  mod[1],
+                ),
               },
               {
                 loader: "postcss-loader",
                 options: {
-                  sourceMap: true
-                }
+                  sourceMap: true,
+                },
               },
-              ...loader.use
-            ]
+              ...loader.use,
+            ],
           };
         }
       }
@@ -113,24 +113,24 @@ export const css = {
                   {},
                   css.loaderDefaults,
                   {
-                    sourceMap
+                    sourceMap,
                   },
-                  mod[1]
-                )
+                  mod[1],
+                ),
               },
               {
                 loader: "postcss-loader",
                 options: {
-                  sourceMap
-                }
+                  sourceMap,
+                },
               },
-              ...loader.use
-            ]
+              ...loader.use,
+            ],
           };
         }
       }
     })();
-  }
+  },
 };
 
 // Production config
@@ -182,15 +182,13 @@ export const stats = {
   // Show which exports of a module are used
   usedExports: false,
   // Add webpack version information
-  version: false
+  version: false,
 };
 
 // Return a new Webpack plugin that shows a progress bar of what is being
 // built, and a 0-100% indicator of the Webpack build status
 export function webpackProgress(what = chalk.magenta.bold("ReactQL")) {
   return new ProgressBarPlugin({
-    format: `${what} building [:bar] ${chalk.green.bold(
-      ":percent"
-    )} (:elapsed seconds)`
+    format: `${what} building [:bar] ${chalk.green.bold(":percent")} (:elapsed seconds)`,
   });
 }

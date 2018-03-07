@@ -49,9 +49,9 @@ function unwind(reducer = true) {
               // Otherwise, call our real reducer with the {state, action}
               return arr[1].reducer(state, action);
             }
-          : arr[1].initialState
-      }))
-    )
+          : arr[1].initialState,
+      })),
+    ),
   );
 
   // If this is a reducer, return at this point
@@ -62,8 +62,8 @@ function unwind(reducer = true) {
   return Object.assign(
     {},
     ...Object.keys(r).map(key => ({
-      [key]: Immutable((hasState && window.__STATE__[key]) || r[key])
-    }))
+      [key]: Immutable((hasState && window.__STATE__[key]) || r[key]),
+    })),
   );
 }
 
@@ -80,8 +80,8 @@ export default function createNewStore() {
       // eslint-disable-next-line no-underscore-dangle
       !SERVER && typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== "undefined"
         ? window.__REDUX_DEVTOOLS_EXTENSION__()
-        : f => f
-    )
+        : f => f,
+    ),
   );
 
   return store;

@@ -4,8 +4,8 @@
 
 // ----------------------
 // IMPORTS
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 // ----------------------
 
@@ -30,10 +30,11 @@ const Html = ({ helmet, scripts, window, css, children }) => (
       <script
         dangerouslySetInnerHTML={{
           __html: Object.keys(window).reduce(
-            (out, key) => out += `window.${key}=${JSON.stringify(window[key])};`,
-            '',
+            (out, key) => (out += `window.${key}=${JSON.stringify(window[key])};`),
+            "",
           ),
-        }} />
+        }}
+      />
       {scripts.map(src => <script key={src} src={src} />)}
     </body>
   </html>

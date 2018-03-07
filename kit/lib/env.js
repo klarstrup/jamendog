@@ -9,17 +9,17 @@ export function getServerURL(host = process.env.HOST, port = process.env.PORT, a
     const stub = `https://${host || process.env.HOST}`;
 
     // If we're on port 443, that's 'regular' SSL so no need to specify port
-    if (process.env.SSL_PORT === '443') return stub;
+    if (process.env.SSL_PORT === "443") return stub;
     return `${stub}:${process.env.SSL_PORT}`;
   }
 
   // Plain HTTP
   const stub =
-    host === 'jamen.dog' || host === 'staging.jamen.dog' || host === 'development.jamen.dog'
+    host === "jamen.dog" || host === "staging.jamen.dog" || host === "development.jamen.dog"
       ? `https://${host || process.env.HOST}`
       : `http://${host || process.env.HOST}`;
 
   // If we're on port 80, that's 'regular' HTTP so no need to specify port
-  if (port === '80') return stub;
+  if (port === "80") return stub;
   return `${stub}:${port}`;
 }
