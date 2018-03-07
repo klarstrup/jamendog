@@ -102,7 +102,6 @@ export function createClient(opt = {}) {
   const cache = new InMemoryCache({
     dataIdFromObject,
     addTypename: true,
-    cacheResolvers: {},
     fragmentMatcher: getFragmentMatcher()
   });
 
@@ -110,7 +109,10 @@ export function createClient(opt = {}) {
     link: new SchemaLink({ schema }),
     // use restore on the cache instead of initialState
     cache:
-      window && window.state && window.state.__APOLLO_CLIENT__
+      typeof window !== "undefined" &&
+      window &&
+      window.state &&
+      window.state.__APOLLO_CLIENT__
         ? cache.restore(window.state.__APOLLO_CLIENT__)
         : new InMemoryCache(),
     ssrMode: true,
