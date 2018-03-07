@@ -1,30 +1,30 @@
-import React from 'react';
-import Helmet from 'react-helmet';
-import pathToRegexp from 'path-to-regexp';
+import React from "react";
+import Helmet from "react-helmet";
+import pathToRegexp from "path-to-regexp";
 
-import MdMenu from 'react-icons/lib/md/menu';
-import MdArrowBack from 'react-icons/lib/md/arrow-back';
-import MdFilterList from 'react-icons/lib/md/filter-list';
+import MdMenu from "react-icons/lib/md/menu";
+import MdArrowBack from "react-icons/lib/md/arrow-back";
+import MdFilterList from "react-icons/lib/md/filter-list";
 
-import { slide as Menu } from 'react-burger-menu';
+import { slide as Menu } from "react-burger-menu";
 
-import { Route, Switch, withRouter, Link } from 'react-router-dom';
+import { Route, Switch, withRouter, Link } from "react-router-dom";
 
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
+import { graphql, Query } from "react-apollo";
+import gql from "graphql-tag";
 
-import { WhenNotFound } from 'components/routes';
+import { WhenNotFound } from "components/routes";
 
-import SearchResults from 'components/SearchResults';
-import SearchSplash from 'components/SearchSplash';
-import logo from './logo-sgn.svg';
+import SearchResults from "components/SearchResults";
+import SearchSplash from "components/SearchSplash";
+import logo from "./logo-sgn.svg";
 
 @withRouter
 class GlobalSearch extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const term = this.getTerm() || '';
+    const term = this.getTerm() || "";
     this.state = { term, showFilters: false, showMenu: false };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,7 +32,7 @@ class GlobalSearch extends React.PureComponent {
   }
   componentDidMount() {
     if (!SERVER) {
-      document.addEventListener('scroll', () => {
+      document.addEventListener("scroll", () => {
         const focused = document.activeElement === this.input;
         if (focused) {
           this.input.blur();
@@ -42,15 +42,19 @@ class GlobalSearch extends React.PureComponent {
   }
   componentWillReceiveProps(nextProps) {
     this.setState({
-      term: this.getTerm(nextProps) || '',
+      term: this.getTerm(nextProps) || ""
     });
   }
   getTerm = (props = this.props) => {
-    const [term] = (pathToRegexp('/search/:term').exec(props.location.pathname) || []).slice(-1);
+    const [term] = (
+      pathToRegexp("/search/:term").exec(props.location.pathname) || []
+    ).slice(-1);
     if (term) {
       return decodeURIComponent(term);
     }
-    return pathToRegexp('/search/').exec(props.location.pathname) ? '' : undefined;
+    return pathToRegexp("/search/").exec(props.location.pathname)
+      ? ""
+      : undefined;
   };
   handleChange = event => {
     const term = event.target.value;
@@ -67,7 +71,7 @@ class GlobalSearch extends React.PureComponent {
     this.setState(state => ({ showFilters: !state.showFilters }));
   };
   updateUrl(term) {
-    const urlTerm = this.getTerm() || '';
+    const urlTerm = this.getTerm() || "";
     const focused = SERVER ? false : document.activeElement === this.input;
     if (term !== urlTerm) {
       if (term) {
@@ -77,16 +81,16 @@ class GlobalSearch extends React.PureComponent {
           this.props.history.push(`/search/${term}`);
         }
       } else if (focused) {
-        this.props.history.push('/search/');
+        this.props.history.push("/search/");
       } else {
-        this.props.history.push('/');
+        this.props.history.push("/");
       }
     }
     if (!urlTerm && !term) {
       if (focused) {
-        this.props.history.push('/search/');
+        this.props.history.push("/search/");
       } else {
-        this.props.history.push('/');
+        this.props.history.push("/");
       }
     }
   }
@@ -95,90 +99,97 @@ class GlobalSearch extends React.PureComponent {
 
     const styles = {
       bmBurgerButton: {
-        position: 'absolute',
-        width: '28px',
-        height: '24px',
-        left: '24px',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        display: 'none',
+        position: "absolute",
+        width: "28px",
+        height: "24px",
+        left: "24px",
+        top: "50%",
+        transform: "translateY(-50%)",
+        display: "none"
       },
       bmBurgerBars: {
-        background: '#373a47',
+        background: "#373a47"
       },
       bmCrossButton: {
-        display: 'none',
+        display: "none"
       },
       bmCross: {
-        background: '#bdc3c7',
+        background: "#bdc3c7"
       },
       bmMenuWrap: {
         left: 0,
         top: 0,
         //        maxWidth: '320px',
-        width: 'calc(100vw - 64px)',
+        width: "calc(100vw - 64px)"
       },
       bmMenu: {
-        background: '#FFFFFF',
+        background: "#FFFFFF",
         boxShadow:
-          '0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)',
+          "0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)"
       },
       bmMorphShape: {
-        fill: '#373a47',
+        fill: "#373a47"
       },
       bmItemList: {},
       bmOverlay: {
-        background: 'rgba(0, 0, 0, 0.3)',
+        background: "rgba(0, 0, 0, 0.3)",
         left: 0,
-        top: 0,
-      },
+        top: 0
+      }
     };
     return (
       <div>
-        <Helmet defaultTitle="Jamen Dog - der er tilbud!" titleTemplate="%s - Jamen Dog" />
+        <Helmet
+          defaultTitle="Jamen Dog - der er tilbud!"
+          titleTemplate="%s - Jamen Dog"
+        />
         <div
           style={{
-            width: '100%',
-            padding: '0.5em',
-            position: 'relative',
-          }}>
+            width: "100%",
+            padding: "0.5em",
+            position: "relative"
+          }}
+        >
           {focused || this.getTerm() !== undefined ? (
             <Link
               to="/"
               style={{
-                position: 'absolute',
-                left: 'initial',
-                top: '50%',
+                position: "absolute",
+                left: "initial",
+                top: "50%",
                 lineHeight: 1,
-                transform: 'translateY(-50%)',
-                padding: '0.5em 0.75em',
-                color: '#212121',
-                fontSize: '1.1em',
-              }}>
+                transform: "translateY(-50%)",
+                padding: "0.5em 0.75em",
+                color: "#212121",
+                fontSize: "1.1em"
+              }}
+            >
               <MdArrowBack />
             </Link>
           ) : (
             <button
               onClick={() => this.setState({ showMenu: true })}
               style={{
-                position: 'absolute',
-                left: 'initial',
+                position: "absolute",
+                left: "initial",
                 lineHeight: 1,
-                top: '50%',
-                padding: '.6em .9em',
-                color: '#212121',
-                fontSize: '1.1em',
-                transform: 'translateY(-50%)',
+                top: "50%",
+                padding: ".6em .9em",
+                color: "#212121",
+                fontSize: "1.1em",
+                transform: "translateY(-50%)",
                 border: 0,
-                background: 'none',
-              }}>
+                background: "none"
+              }}
+            >
               <MdMenu />
             </button>
           )}
           <Menu
             isOpen={this.state.showMenu}
             onStateChange={({ isOpen }) => this.setState({ showMenu: isOpen })}
-            styles={styles}>
+            styles={styles}
+          >
             <section>Profile stuff/login enticing</section>
             <section>
               <header>Header</header>
@@ -187,11 +198,16 @@ class GlobalSearch extends React.PureComponent {
               </ul>
             </section>
             <div>
-              Powered by ShopGun{' '}
+              Powered by ShopGun{" "}
               <img
                 src={logo}
-                style={{ width: '24px', height: '24px', verticalAlign: 'bottom' }}
-                alt="ShopGun Logo" />
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  verticalAlign: "bottom"
+                }}
+                alt="ShopGun Logo"
+              />
             </div>
           </Menu>
 
@@ -199,17 +215,18 @@ class GlobalSearch extends React.PureComponent {
             <button
               onClick={this.toggleFilters}
               style={{
-                position: 'absolute',
-                right: '0.5em',
+                position: "absolute",
+                right: "0.5em",
                 lineHeight: 1,
-                top: '50%',
-                padding: '0.5em 0.75em',
-                color: '#212121',
-                fontSize: '1.1em',
-                transform: 'translateY(-50%)',
+                top: "50%",
+                padding: "0.5em 0.75em",
+                color: "#212121",
+                fontSize: "1.1em",
+                transform: "translateY(-50%)",
                 border: 0,
-                background: 'none',
-              }}>
+                background: "none"
+              }}
+            >
               <MdFilterList />
             </button>
           ) : null}
@@ -217,12 +234,12 @@ class GlobalSearch extends React.PureComponent {
             placeholder="Søg her..."
             style={{
               boxShadow:
-                '0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)',
-              width: '100%',
+                "0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2)",
+              width: "100%",
               border: 0,
-              appearance: 'none',
-              fontSize: '1em',
-              padding: '0.75em 3em',
+              appearance: "none",
+              fontSize: "1em",
+              padding: "0.75em 3em"
             }}
             ref={el => {
               this.input = el;
@@ -231,7 +248,8 @@ class GlobalSearch extends React.PureComponent {
             value={this.state.term}
             onChange={this.handleChange}
             onBlur={this.handleBlur}
-            onFocus={this.handleFocus} />
+            onFocus={this.handleFocus}
+          />
         </div>
         {(focused || this.getTerm() !== undefined) && this.state.showFilters ? (
           <div>FILTERS</div>
@@ -272,18 +290,18 @@ class LogInForm extends React.Component {
       variables: {
         logIn: {
           email: e.currentTarget.email.value,
-          password: e.currentTarget.password.value,
-        },
+          password: e.currentTarget.password.value
+        }
       },
       update: (proxy, { data: { logIn } }) => {
         proxy.writeQuery({
           query: viewerQuery,
           data: {
             ...proxy.readQuery({ query: viewerQuery }),
-            viewer: logIn,
-          },
+            viewer: logIn
+          }
         });
-      },
+      }
     });
   };
   render() {
@@ -318,10 +336,10 @@ class LogOutForm extends React.Component {
           query: viewerQuery,
           data: {
             ...proxy.readQuery({ query: viewerQuery }),
-            viewer: logOut,
-          },
+            viewer: logOut
+          }
         });
-      },
+      }
     });
   };
   render() {
@@ -333,38 +351,35 @@ class LogOutForm extends React.Component {
   }
 }
 
-const ViewerData = graphql(viewerQuery)(({ children, data }) => children(data.viewer));
-
-@graphql(
-  gql`
-    {
-      getShoppingLists {
-        id
-        name
-        items {
+const ShoppingList = () => (
+  <Query
+    query={gql`
+      {
+        getShoppingLists {
           id
-          count
-          description
-          tick
-          offerId
+          name
+          items {
+            id
+            count
+            description
+            tick
+            offerId
+          }
         }
       }
+    `}
+  >
+    {({ data: { getShoppingLists } }) =>
+      getShoppingLists
+        ? getShoppingLists.map(list => (
+            <li key={list.id}>
+              <pre>{JSON.stringify(list, null, 2)}</pre>
+            </li>
+          ))
+        : "???"
     }
-  `,
-)
-class ShoppingList extends React.Component {
-  render() {
-    const { getShoppingLists } = this.props.data;
-    return getShoppingLists
-      ? getShoppingLists.map(list => (
-        <li key={list.id}>
-          <pre>{JSON.stringify(list, null, 2)}</pre>
-        </li>
-      ))
-      : '???';
-  }
-}
-
+  </Query>
+);
 export default () => (
   <React.Fragment>
     <GlobalSearch />
@@ -373,9 +388,9 @@ export default () => (
         exact
         path="/"
         component={() => (
-          <ViewerData>
-            {viewer =>
-              (viewer ? (
+          <Query query={viewerQuery}>
+            {({ data: { viewer } }) =>
+              viewer ? (
                 <React.Fragment>
                   <ShoppingList />
                   <LogOutForm />
@@ -383,10 +398,11 @@ export default () => (
                 </React.Fragment>
               ) : (
                 <LogInForm />
-              ))
+              )
             }
-          </ViewerData>
-        )} />
+          </Query>
+        )}
+      />
       <Route exact path="/search/" component={SearchSplash} />
       <Route exact path="/search/:term" component={SearchResults} />
       <Route component={WhenNotFound} />
