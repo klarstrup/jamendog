@@ -10,88 +10,88 @@
 /* Node */
 
 // For pre-pending a `<!DOCTYPE html>` stream to the server response
-import { PassThrough } from 'stream';
+import { PassThrough } from "stream";
 
 // HTTP & SSL servers.  We can use `config.enableSSL|disableHTTP()` to enable
 // HTTPS and disable plain HTTP respectively, so we'll use Node's core libs
 // for building both server types.
-import http from 'http';
-import https from 'https';
+import http from "http";
+import https from "https";
 
 /* NPM */
 
 // Patch global.`fetch` so that Apollo calls to GraphQL work
-import 'isomorphic-fetch';
+import "isomorphic-fetch";
 
 // React UI
-import React from 'react';
+import React from "react";
 
 // React utility to transform JSX to HTML (to send back to the client)
-import ReactDOMServer from 'react-dom/server';
+import ReactDOMServer from "react-dom/server";
 
 // Koa 2 web server.  Handles incoming HTTP requests, and will serve back
 // the React render, or any of the static assets being compiled
-import Koa from 'koa';
+import Koa from "koa";
 
 // Apollo tools to connect to a GraphQL server.  We'll grab the
 // `ApolloProvider` HOC component, which will inject any 'listening' React
 // components with GraphQL data props.  We'll also use `getDataFromTree`
 // to await data being ready before rendering back HTML to the client
-import { ApolloProvider, getDataFromTree } from 'react-apollo';
+import { ApolloProvider, getDataFromTree } from "react-apollo";
 
 // Enforce SSL, if required
-import koaSSL from 'koa-sslify';
+import koaSSL from "koa-sslify";
 
 // Enable cross-origin requests
-import koaCors from 'kcors';
+import koaCors from "kcors";
 
 // Static file handler
-import koaSend from 'koa-send';
+import koaSend from "koa-send";
 
 // HTTP header hardening
-import koaHelmet from 'koa-helmet';
+import koaHelmet from "koa-helmet";
 
 // Koa Router, for handling URL requests
-import KoaRouter from 'koa-router';
+import KoaRouter from "koa-router";
 
 // High-precision timing, so we can debug response time to serve a request
-import ms from 'microseconds';
+import ms from "microseconds";
 
 // React Router HOC for figuring out the exact React hierarchy to display
 // based on the URL
-import { StaticRouter } from 'react-router';
+import { StaticRouter } from "react-router";
 
 // <Helmet> component for retrieving <head> section, so we can set page
 // title, meta info, etc along with the initial HTML
-import Helmet from 'react-helmet';
+import Helmet from "react-helmet";
 
 // Import the Apollo GraphQL server, for Koa
-import { graphqlKoa, graphiqlKoa } from 'apollo-server-koa';
+import { graphqlKoa, graphiqlKoa } from "apollo-server-koa";
 
 /* ReactQL */
 
 // App entry point.  This must come first, because app.js will set-up the
 // server config that we'll use later
-import App from 'src/app';
+import App from "src/app";
 
 // Custom redux store creator.  This will allow us to create a store 'outside'
 // of Apollo, so we can apply our own reducers and make use of the Redux dev
 // tools in the browser
-import createNewStore from 'kit/lib/redux';
+import createNewStore from "kit/lib/redux";
 
 // Initial view to send back HTML render
-import Html from 'kit/views/ssr';
+import Html from "kit/views/ssr";
 
 // Grab the shared Apollo Client / network interface instantiation
-import { getNetworkInterface, createClient } from 'kit/lib/apollo';
+import { getNetworkInterface, createClient } from "kit/lib/apollo";
 
 // App settings, which we'll use to customise the server -- must be loaded
 // *after* app.js has been called, so the correct settings have been set
-import config from 'kit/config';
+import config from "kit/config";
 
 // Import paths.  We'll use this to figure out where our public folder is
 // so we can serve static files
-import PATHS from 'config/paths';
+import PATHS from "config/paths";
 
 // ----------------------
 
@@ -99,18 +99,18 @@ import PATHS from 'config/paths';
 export function staticMiddleware() {
   return async function staticMiddlewareHandler(ctx, next) {
     try {
-      if (ctx.path !== '/') {
+      if (ctx.path !== "/") {
         return await koaSend(
           ctx,
           ctx.path,
-          process.env.NODE_ENV === 'production'
+          process.env.NODE_ENV === "production"
             ? {
-              root: PATHS.public,
-              immutable: true,
-            }
+                root: PATHS.public,
+                immutable: true
+              }
             : {
-              root: PATHS.distDev,
-            },
+                root: PATHS.distDev
+              }
         );
       }
     } catch (e) {
@@ -131,7 +131,7 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
     // store it in our empty `route` object
     const components = (
       <StaticRouter location={ctx.request.url} context={routeContext}>
-        <ApolloProvider store={ctx.store} client={ctx.apollo.client}>
+        <ApolloProvider client={ctx.apollo.client}>
           <App />
         </ApolloProvider>
       </StaticRouter>
@@ -174,7 +174,7 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
     const htmlStream = new PassThrough();
 
     // Prefix the doctype, so the browser knows to expect HTML5
-    htmlStream.write('<!DOCTYPE html>');
+    htmlStream.write("<!DOCTYPE html>");
 
     // Create a stream of the React render. We'll pass in the
     // Helmet component to generate the <head> tag, as well as our Redux
@@ -185,11 +185,13 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
         window={{
           webpackManifest: chunkManifest,
           __STATE__: ctx.store.getState(),
+          __APOLLO_STATE__: ctx.apollo.client.extract()
         }}
         css={css}
-        scripts={scripts}>
+        scripts={scripts}
+      >
         {components}
-      </Html>,
+      </Html>
     );
 
     // Pipe the React stream to the HTML output
@@ -197,7 +199,7 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
 
     // Set the return type to `text/html`, and stream the response back to
     // the client
-    ctx.type = 'text/html';
+    ctx.type = "text/html";
     ctx.body = htmlStream;
   };
 }
@@ -206,13 +208,13 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
 // Koa route handlers
 const router = new KoaRouter()
   // Set-up a general purpose /ping route to check the server is alive
-  .get('/ping', async ctx => {
-    ctx.body = 'pong';
+  .get("/ping", async ctx => {
+    ctx.body = "pong";
   })
 
   // Favicon.ico.  By default, we'll serve this as a 204 No Content.
   // If /favicon.ico is available as a static file, it'll try that first
-  .get('/favicon.ico', async ctx => {
+  .get("/favicon.ico", async ctx => {
     ctx.status = 204;
   });
 
@@ -230,11 +232,11 @@ const app = new Koa()
     } catch (e) {
       // If we have a custom error handler, use that - else simply log a
       // message and return one to the user
-      if (typeof config.errorHandler === 'function') {
+      if (typeof config.errorHandler === "function") {
         config.errorHandler(e, ctx, next);
       } else {
-        console.log('Error:', e.message);
-        ctx.body = 'There was an error. Please try again later.';
+        console.log("Error:", e.message);
+        ctx.body = "There was an error. Please try again later.";
       }
     }
   });
@@ -247,7 +249,7 @@ if (config.enableTiming) {
     await next();
     const end = ms.parse(ms.since(start));
     const total = end.microseconds + end.milliseconds * 1e3 + end.seconds * 1e6;
-    ctx.set('Response-Time', `${total / 1e3}ms`);
+    ctx.set("Response-Time", `${total / 1e3}ms`);
   });
 }
 
@@ -271,17 +273,13 @@ app.use(async (ctx, next) => {
   if (!ctx.apollo.client) {
     ctx.apollo.client = createClient({
       ssrMode: true,
-      // Create a network request.  If we're running an internal server, this
-      // will be a function that accepts the request's context, to feed through
-      // to the GraphQL schema
-      networkInterface: getNetworkInterface(ctx),
-      ...ctx.apollo.options,
+      ...ctx.apollo.options
     });
   }
 
   // Create a new Redux store for this request, if we don't have one
   if (!ctx.store) {
-    ctx.store = createNewStore(ctx.apollo.client);
+    ctx.store = createNewStore();
   }
 
   // Pass to the next middleware in the chain: React, custom middleware, etc
@@ -313,8 +311,8 @@ if (config.graphQLServer) {
       // Bind the current request context, so it's accessible within GraphQL
       context,
       // Attach the GraphQL schema
-      schema: config.graphQLSchema,
-    })),
+      schema: config.graphQLSchema
+    }))
   );
 }
 
@@ -327,7 +325,7 @@ if (config.graphiQL) {
   // explicit -> internal GraphQL server endpoint -> /graphql
   let graphiQLEndpoint;
 
-  if (typeof config.graphiQL === 'string') {
+  if (typeof config.graphiQL === "string") {
     // Since we've explicitly passed a string, we'll use that as the endpoint
     graphiQLEndpoint = config.graphiQL;
   } else if (config.graphQLServer) {
@@ -337,14 +335,14 @@ if (config.graphiQL) {
   } else {
     // Since we haven't set anything, AND we don't have an internal server,
     // by default we'll use `/graphql` which will work for an external server
-    graphiQLEndpoint = '/graphql';
+    graphiQLEndpoint = "/graphql";
   }
 
   router.get(
     graphiQLEndpoint,
     graphiqlKoa({
-      endpointURL: config.graphQLEndpoint,
-    }),
+      endpointURL: config.graphQLEndpoint
+    })
   );
 }
 
@@ -359,10 +357,10 @@ config.routes.forEach(route => {
 // (default) and apply a custom config if we need one
 if (config.enableBodyParser) {
   app.use(
-    require('koa-bodyparser')(
+    require("koa-bodyparser")(
       // Pass in any options that may have been set in userland
-      config.bodyParserOptions,
-    ),
+      config.bodyParserOptions
+    )
   );
 }
 
@@ -370,7 +368,7 @@ if (config.enableBodyParser) {
 
 // Pass the `app` to do anything we need with it in userland. Useful for
 // custom instantiation that doesn't fit into the middleware/route functions
-if (typeof config.koaAppFunc === 'function') {
+if (typeof config.koaAppFunc === "function") {
   config.koaAppFunc(app);
 }
 
@@ -388,7 +386,9 @@ const listen = () => {
   // SSL -- only enable this if we have an `SSL_PORT` set on the environment
   if (process.env.SSL_PORT) {
     servers.push(
-      https.createServer(config.sslOptions, app.callback()).listen(process.env.SSL_PORT),
+      https
+        .createServer(config.sslOptions, app.callback())
+        .listen(process.env.SSL_PORT)
     );
   }
 
@@ -399,5 +399,5 @@ const listen = () => {
 export default {
   router,
   app,
-  listen,
+  listen
 };

@@ -67,7 +67,7 @@ function unwind(reducer = true) {
   );
 }
 
-export default function createNewStore(apolloClient) {
+export default function createNewStore() {
   const store = createStore(
     // By default, we'll use just the apollo reducer.  We can easily add our
     // own here, for global store management outside of Apollo

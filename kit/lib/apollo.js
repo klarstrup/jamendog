@@ -111,14 +111,13 @@ export function createClient(opt = {}) {
     cache:
       typeof window !== "undefined" &&
       window &&
-      window.state &&
-      window.state.__APOLLO_CLIENT__
-        ? cache.restore(window.state.__APOLLO_CLIENT__)
+      window.__APOLLO_STATE__
+        ? cache.restore(window.__APOLLO_STATE__)
         : new InMemoryCache(),
-    ssrMode: true,
     ssrForceFetchDelay: 100,
     connectToDevTools: true,
-    queryDeduplication: true
+    queryDeduplication: true,
+    ...opt
   });
   return client;
 }
