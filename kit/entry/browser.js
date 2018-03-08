@@ -24,6 +24,7 @@ import { Router } from "react-router-dom";
 // Apollo Provider. This HOC will 'wrap' our React component chain
 // and handle injecting data down to any listening component
 import { ApolloProvider } from "react-apollo";
+import Loadable from "react-loadable";
 
 /* ReactQL */
 
@@ -55,7 +56,8 @@ const store = createNewStore(client);
 // Create the 'root' entry point into the app.  If we have React hot loading
 // (i.e. if we're in development), then we'll wrap the whole thing in an
 // <AppContainer>.  Otherwise, we'll jump straight to the browser router
-function doRender() {
+async function doRender() {
+  await Loadable.preloadReady();
   const main = document.getElementById("main");
   const renderOrHydrate = main.innerHTML.trim().length ? "hydrate" : "render";
   ReactDOM[renderOrHydrate](<Root />, main);

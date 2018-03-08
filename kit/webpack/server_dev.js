@@ -60,6 +60,9 @@ export default [
   new WebpackConfig().extend("[root]/dev.js", "[root]/server.js").merge({
     mode: "development",
     watch: true,
+    watchOptions: {
+      ignored: "dist/react-loadable.json",
+    },
     stats: "none",
 
     // Production server entry point
@@ -97,6 +100,9 @@ export default [
   // Browser bundle
   new WebpackConfig().extend("[root]/dev.js", "[root]/browser.js").merge({
     watch: true,
+    watchOptions: {
+      ignored: "dist/react-loadable.json",
+    },
     stats: "none",
 
     output: {

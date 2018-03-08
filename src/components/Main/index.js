@@ -1,6 +1,7 @@
 import React from "react";
 import Helmet from "react-helmet";
 import pathToRegexp from "path-to-regexp";
+import Loadable from "react-loadable";
 
 import MdMenu from "react-icons/lib/md/menu";
 import MdArrowBack from "react-icons/lib/md/arrow-back";
@@ -15,8 +16,6 @@ import gql from "graphql-tag";
 
 import { WhenNotFound } from "components/routes";
 
-import SearchResults from "components/SearchResults";
-import SearchSplash from "components/SearchSplash";
 import logo from "./logo-sgn.svg";
 
 @withRouter
@@ -396,8 +395,22 @@ export default () => (
           </Query>
         )}
       />
-      <Route exact path="/search/" component={SearchSplash} />
-      <Route exact path="/search/:term" component={SearchResults} />
+      <Route
+        exact
+        path="/search/"
+        component={Loadable({
+          loader: () => import("components/SearchSplash"),
+          loading: () => null,
+        })}
+      />
+      <Route
+        exact
+        path="/search/:term"
+        component={Loadable({
+          loader: () => import("components/SearchResults"),
+          loading: () => null,
+        })}
+      />
       <Route component={WhenNotFound} />
     </Switch>
   </React.Fragment>

@@ -25,6 +25,9 @@ import "isomorphic-fetch";
 
 // React UI
 import React from "react";
+import Loadable from "react-loadable";
+import { getBundles } from "react-loadable/webpack";
+import stats from "./../../react-loadable.json";
 
 // React utility to transform JSX to HTML (to send back to the client)
 import ReactDOMServer from "react-dom/server";
@@ -125,16 +128,19 @@ export function staticMiddleware() {
 export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
   return async function reactHandler(ctx) {
     const routeContext = {};
+    const modules = [];
 
     // Generate the HTML from our React tree.  We're wrapping the result
     // in `react-router`'s <StaticRouter> which will pull out URL info and
     // store it in our empty `route` object
     const components = (
-      <StaticRouter location={ctx.request.url} context={routeContext}>
-        <ApolloProvider client={ctx.apollo.client}>
-          <App />
-        </ApolloProvider>
-      </StaticRouter>
+      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+        <StaticRouter location={ctx.request.url} context={routeContext}>
+          <ApolloProvider client={ctx.apollo.client}>
+            <App />
+          </ApolloProvider>
+        </StaticRouter>
+      </Loadable.Capture>
     );
 
     // Wait for GraphQL data to be available in our initial render,
@@ -169,6 +175,8 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
 
       ctx.status = routeContext.status;
     }
+//    let html = ReactDOMServer.renderToString(components);
+
 
     // Create a HTML stream, to send back to the browser
     const htmlStream = new PassThrough();
@@ -193,7 +201,6 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
         {components}
       </Html>,
     );
-
     // Pipe the React stream to the HTML output
     reactStream.pipe(htmlStream);
 
@@ -201,6 +208,8 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
     // the client
     ctx.type = "text/html";
     ctx.body = htmlStream;
+    let bundles = getBundles(stats, modules);
+    scripts.concat(bundles.map(({ file }) => file));
   };
 }
 
@@ -377,7 +386,7 @@ if (typeof config.koaAppFunc === "function") {
 const listen = () => {
   // Spawn the listeners.
   const servers = [];
-
+  Loadable.preloadAll().then(() => console.log("Loadable.preloadAll"));
   // Plain HTTP
   if (config.enableHTTP) {
     servers.push(http.createServer(app.callback()).listen(process.env.PORT));

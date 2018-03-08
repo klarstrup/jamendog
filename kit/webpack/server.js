@@ -10,6 +10,7 @@ import WebpackConfig from "webpack-config";
 // bundle.  Since we'll be running `server.js` from Node, we'll have access
 // to those modules locally and they don't need to wind up in the bundle file
 import nodeModules from "webpack-node-externals";
+import { ReactLoadablePlugin } from 'react-loadable/webpack';
 
 /* Local */
 import { regex, css } from "./common";
@@ -80,6 +81,7 @@ export default new WebpackConfig()
           query: {
             presets: ["react"],
             plugins: [
+              "react-loadable/babel",
               "transform-object-rest-spread",
               "syntax-dynamic-import",
               "transform-class-properties",
@@ -94,4 +96,9 @@ export default new WebpackConfig()
     externals: nodeModules({
       whitelist: [regex.fonts, regex.images],
     }),
+    plugins: [
+      new ReactLoadablePlugin({
+        filename: "./react-loadable.json",
+      }),
+    ],
   });

@@ -1,20 +1,15 @@
 import React from "react";
 
-import { graphql } from "react-apollo";
+import { graphql, Query } from "react-apollo";
 
 import SEARCH_QUERY from "./SearchQuery.graphql";
 
 import SearchResultsOffer from "../SearchResultsOffer";
 import SearchResultsBusiness from "../SearchResultsBusiness";
 
-@graphql(SEARCH_QUERY)
-export default class SearchSplash extends React.Component {
-  render() {
-    const { data: { getOffers = [], getSuggestedBusinesses = [] } } = this.props;
-    const businesses = getSuggestedBusinesses.filter(
-      ({ pagedPublications }) => pagedPublications.length,
-    );
-    return (
+const SearchSplash = () => (
+  <Query query={SEARCH_QUERY}>
+    {({ data: { getOffers = [], getSuggestedBusinesses = [] } }) => (
       <React.Fragment>
         <div
           style={{
@@ -35,28 +30,30 @@ export default class SearchSplash extends React.Component {
               alignItems: "stretch",
             }}
           >
-            {businesses.map(business => (
-              <li
-                key={business.id}
-                style={{
-                  width: "50%",
-                  padding: "4px",
-                  position: "relative",
-                  maxWidth: "200px",
-                }}
-              >
-                <button
+            {getSuggestedBusinesses
+              .filter(({ pagedPublications }) => pagedPublications.length)
+              .map(business => (
+                <li
+                  key={business.id}
                   style={{
-                    position: "absolute",
-                    top: "8px",
-                    right: "8px",
+                    width: "50%",
+                    padding: "4px",
+                    position: "relative",
+                    maxWidth: "200px",
                   }}
                 >
-                  X
-                </button>
-                <SearchResultsBusiness business={business} />
-              </li>
-            ))}
+                  <button
+                    style={{
+                      position: "absolute",
+                      top: "8px",
+                      right: "8px",
+                    }}
+                  >
+                    X
+                  </button>
+                  <SearchResultsBusiness business={business} />
+                </li>
+              ))}
           </ul>
           <div
             style={{
@@ -91,6 +88,8 @@ export default class SearchSplash extends React.Component {
           ))}
         </ul>
       </React.Fragment>
-    );
-  }
-}
+    )}
+  </Query>
+);
+
+export default SearchSplash;
