@@ -1,8 +1,8 @@
 {
-  "components/SearchResults": [
+  "components/SearchSplash": [
     {
       "id": 14,
-      "name": "./src/components/SearchResults/index.js",
+      "name": "./src/components/SearchSplash/index.js",
       "file": "0.server.js"
     }
   ],
@@ -93,19 +93,19 @@
   "./SearchQuery.graphql": [
     {
       "id": 75,
-      "name": "./src/components/SearchResults/SearchQuery.graphql",
+      "name": "./src/components/SearchSplash/SearchQuery.graphql",
       "file": "0.server.js"
     },
     {
       "id": 76,
-      "name": "./src/components/SearchSplash/SearchQuery.graphql",
+      "name": "./src/components/SearchResults/SearchQuery.graphql",
       "file": "1.server.js"
     }
   ],
-  "components/SearchSplash": [
+  "components/SearchResults": [
     {
       "id": 15,
-      "name": "./src/components/SearchSplash/index.js",
+      "name": "./src/components/SearchResults/index.js",
       "file": "1.server.js"
     }
   ],

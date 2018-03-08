@@ -372,6 +372,15 @@ const ShoppingList = () => (
     }
   </Query>
 );
+const SearchResults = Loadable({
+  loader: () => import("components/SearchResults"),
+  loading: () => null,
+});
+const SearchSplash = Loadable({
+  loader: () => import("components/SearchSplash"),
+  loading: () => null,
+});
+
 export default () => (
   <React.Fragment>
     <GlobalSearch />
@@ -395,22 +404,8 @@ export default () => (
           </Query>
         )}
       />
-      <Route
-        exact
-        path="/search/"
-        component={Loadable({
-          loader: () => import("components/SearchSplash"),
-          loading: () => null,
-        })}
-      />
-      <Route
-        exact
-        path="/search/:term"
-        component={Loadable({
-          loader: () => import("components/SearchResults"),
-          loading: () => null,
-        })}
-      />
+      <Route exact path="/search/" component={SearchSplash} />
+      <Route exact path="/search/:term" component={SearchResults} />
       <Route component={WhenNotFound} />
     </Switch>
   </React.Fragment>
