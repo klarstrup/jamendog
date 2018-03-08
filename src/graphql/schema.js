@@ -119,6 +119,7 @@ const typeDefs = `
       getBusinesses(term: String): [Business]
       getSuggestedBusinesses(limit: Int, offset: Int): [Business]
       getShoppingLists: [ShoppingList]
+      getShoppingList(id: String): ShoppingList
       search(term: String): [SearchResult]
       viewer: User
     }
@@ -141,6 +142,7 @@ const typeDefs = `
       id: String
       name: String
       items: [ShoppingListItem]
+      meta: [Meta]
     }
     type ShoppingListItem {
       id: String
@@ -148,6 +150,11 @@ const typeDefs = `
       description: String
       tick: Boolean
       offerId: String
+      meta: [Meta]
+    }
+    type Meta {
+      property: String
+      value: String
     }
 `;
 
@@ -185,6 +192,12 @@ const resolvers = {
       REST({
         url: `/v2/users/${ctx.session.user.id}/shoppinglists/${id}/items`,
       }),
+    meta: ({ meta }, args, ctx) =>
+      Object.entries(meta).map(([property, value]) => ({ property, value })),
+  },
+  ShoppingListItem: {
+    meta: ({ meta }, args, ctx) =>
+      Object.entries(meta).map(([property, value]) => ({ property, value })),
   },
   Mutation: {
     logIn: async (root, { input: { email, password } }) =>
@@ -256,6 +269,10 @@ const resolvers = {
     getShoppingLists: (root, args, ctx) =>
       REST({
         url: `/v2/users/${ctx.session.user.id}/shoppinglists`,
+      }),
+    getShoppingList: (root, { id }, ctx) =>
+      REST({
+        url: `/v2/users/${ctx.session.user.id}/shoppinglists/${id}`,
       }),
     search: async (root, { term = "", offset = 0, limit = 70 }) => {
       try {

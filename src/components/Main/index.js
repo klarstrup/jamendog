@@ -343,35 +343,83 @@ class LogOutForm extends React.Component {
   }
 }
 
-const ShoppingList = () => (
-  <Query
-    query={gql`
-      {
-        getShoppingLists {
-          id
-          name
-          items {
-            id
-            count
-            description
-            tick
-            offerId
+class ShoppingList extends React.Component {
+  state = {
+    selectedListId: "",
+  };
+  handleChangeList = event =>
+    console.log(event.target.value) || this.setState({ selectedListId: event.target.value });
+  render() {
+    const { selectedListId } = this.state;
+    return (
+      <Query
+        query={gql`
+          {
+            getShoppingLists {
+              id
+              name
+            }
           }
-        }
-      }
-    `}
-  >
-    {({ data: { getShoppingLists } }) =>
-      getShoppingLists
-        ? getShoppingLists.map(list => (
-            <li key={list.id}>
-              <pre>{JSON.stringify(list, null, 2)}</pre>
-            </li>
-          ))
-        : "???"
-    }
-  </Query>
-);
+        `}
+      >
+        {({ data: { getShoppingLists } }) => (
+          <div>
+            {getShoppingLists && getShoppingLists.length ? (
+              <select
+                value={selectedListId || getShoppingLists[0].id}
+                onChange={this.handleChangeList}
+              >
+                {getShoppingLists.map(list => (
+                  <option value={list.id} key={list.id}>
+                    {list.name}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              "???"
+            )}
+            {selectedListId || (getShoppingLists && getShoppingLists[0]) ? (
+              <Query
+                variables={{
+                  id: selectedListId || (getShoppingLists && getShoppingLists[0].id),
+                }}
+                query={gql`
+                  query getShoppingList($id: String) {
+                    getShoppingList(id: $id) {
+                      id
+                      name
+                      meta {
+                        property
+                        value
+                      }
+                      items {
+                        id
+                        count
+                        description
+                        tick
+                        offerId
+                        meta {
+                          property
+                          value
+                        }
+                      }
+                    }
+                  }
+                `}
+              >
+                {({ data: { getShoppingList: { items } = {} } = {} } = {}) =>
+                  items ? (
+                    <ul>{items.map(item => <li key={item.id}>{JSON.stringify(item)}</li>)}</ul>
+                  ) : null
+                }
+              </Query>
+            ) : null}
+          </div>
+        )}
+      </Query>
+    );
+  }
+}
 const SearchResults = Loadable({
   loader: () => import("components/SearchResults"),
   loading: () => null,

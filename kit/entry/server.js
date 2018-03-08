@@ -27,7 +27,7 @@ import "isomorphic-fetch";
 import React from "react";
 import Loadable from "react-loadable";
 import { getBundles } from "react-loadable/webpack";
-import stats from "./../../react-loadable.json";
+//import stats from "./../../react-loadable.json";
 
 // React utility to transform JSX to HTML (to send back to the client)
 import ReactDOMServer from "react-dom/server";
@@ -208,8 +208,8 @@ export function createReactHandler(css = [], scripts = [], chunkManifest = {}) {
     // the client
     ctx.type = "text/html";
     ctx.body = htmlStream;
-    let bundles = getBundles(stats, modules);
-    scripts.concat(bundles.map(({ file }) => file));
+//    let bundles = getBundles(stats, modules);
+//    scripts.push(...bundles.map(({ file }) => file));
   };
 }
 
@@ -386,7 +386,7 @@ if (typeof config.koaAppFunc === "function") {
 const listen = () => {
   // Spawn the listeners.
   const servers = [];
-  Loadable.preloadAll().then(() => console.log("Loadable.preloadAll"));
+  Loadable.preloadAll();
   // Plain HTTP
   if (config.enableHTTP) {
     servers.push(http.createServer(app.callback()).listen(process.env.PORT));

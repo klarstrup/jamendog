@@ -1,7 +1,3 @@
-const path = require("path");
-const baseRules = require("eslint-config-airbnb-base/rules/style");
-const [_, ...restricted] = baseRules.rules["no-restricted-syntax"];
-
 const PATHS = require("./config/paths");
 
 module.exports = {

@@ -102,6 +102,12 @@ export function createClient(opt = {}) {
     dataIdFromObject,
     addTypename: true,
     fragmentMatcher: getFragmentMatcher(),
+    cacheRedirects: {
+      Query: {
+        getShoppingList: (_, { id }) =>
+          toIdValue(cache.config.dataIdFromObject({ __typename: "ShoppingList", id })),
+      },
+    },
   });
 
   const client = new ApolloClient({
