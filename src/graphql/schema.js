@@ -7,6 +7,23 @@ import camelCaseObject from "camelize";
 import SGN from "shopgun-sdk";
 
 if (!SERVER) window.SGN = SGN;
+const pad = number => (number < 10 ? "0" + number : number);
+const getModified = (date = new Date()) => {
+  return (
+    date.getUTCFullYear() +
+    "-" +
+    pad(date.getUTCMonth() + 1) +
+    "-" +
+    pad(date.getUTCDate()) +
+    "T" +
+    pad(date.getUTCHours()) +
+    ":" +
+    pad(date.getUTCMinutes()) +
+    ":" +
+    pad(date.getUTCSeconds()) +
+    "+0000"
+  );
+};
 
 SGN.config.set({
   appKey: "00jb5b3exqs9ad6qmpkloyfpzgzampso",
@@ -158,6 +175,21 @@ const typeDefs = `
     }
 `;
 
+/*
+
+      REST({
+        url: `/v2/users/${ctx.session.user.id}/shoppinglists/${list.id}`,
+        method: "PUT",
+        body: {
+          modified: getModified(),
+          ...list,
+          meta: {
+            ...list.meta,
+            active: true,
+          },
+        },
+      }
+      */
 const resolvers = {
   SearchResult: {
     __resolveType: ({ ern }) =>

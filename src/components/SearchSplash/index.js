@@ -1,6 +1,6 @@
 import React from "react";
 
-import { graphql, Query } from "react-apollo";
+import { Query } from "react-apollo";
 
 import SEARCH_QUERY from "./SearchQuery.graphql";
 

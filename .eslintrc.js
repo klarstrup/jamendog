@@ -1,8 +1,7 @@
 const PATHS = require("./config/paths");
 
 module.exports = {
-  extends: ["react-app", "plugin:jsx-a11y/recommended"],
-  plugins: ["jsx-a11y"],
+  extends: ["react-app"],
   parser: "babel-eslint",
   parserOptions: {
     ecmaVersion: 2017,

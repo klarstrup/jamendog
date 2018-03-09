@@ -347,8 +347,7 @@ class ShoppingList extends React.Component {
   state = {
     selectedListId: "",
   };
-  handleChangeList = event =>
-    console.log(event.target.value) || this.setState({ selectedListId: event.target.value });
+  handleChangeList = event => this.setState({ selectedListId: event.target.value });
   render() {
     const { selectedListId } = this.state;
     return (
