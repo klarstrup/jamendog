@@ -4,7 +4,20 @@ import OfferQuantity from "components/OfferQuantity";
 import OfferUnitPrice from "components/OfferUnitPrice";
 import css from "./index.scss";
 
-const formatPrice = (price, { locale }) => {
+const formatPrice = (preis, { locale }) => {
+  let price = preis;
+  if (price > 10 && price % 1 >= 0.9) {
+    price = Math.round(price);
+  }
+  if (price % 10 >= 9) {
+    price = Math.round(price / 10) * 10;
+  }
+  if (price % 100 >= 90) {
+    price = Math.round(price / 100) * 100;
+  }
+  if (price % 1000 >= 900) {
+    price = Math.round(price / 1000) * 1000;
+  }
   const priceHasDecimal = price % 1 !== 0;
   return `${price.toLocaleString(locale, {
     maximumFractionDigits: 2,

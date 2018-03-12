@@ -1,12 +1,5 @@
-const formatPrice = ({ price, currency, locale }) =>
-  price.toLocaleString(locale, {
-    style: "currency",
-    currency,
-    minimumFractionDigits: 0,
-  });
-
 const OfferPriceTag = ({ t = a => a, locale = "da-DK", pricing, quantity }) => {
-  const { price, currency } = pricing;
+  const { price } = pricing;
   const { unit, size, pieces } = quantity;
   const { from: sizeFrom = 0, to: sizeTo = 0 } = size;
   const sizeSpread = sizeFrom - sizeTo > 0;
@@ -19,11 +12,12 @@ const OfferPriceTag = ({ t = a => a, locale = "da-DK", pricing, quantity }) => {
         unitPricing += `${t("offer.unit.max.label")} `;
       }
       const unitPrice = price / piecesFrom * (1 / (sizeFrom * unit.si.factor));
-      const unitPriceHasDecimal = unitPrice % 1 != 0;
-      unitPricing += `${unitPrice.toLocaleString(locale, {
+      let formattedUnitPrice = unitPrice.toLocaleString(locale, {
         maximumFractionDigits: 2,
-        ...(unitPriceHasDecimal ? { minimumFractionDigits: 2 } : {}),
-      })}${unitPriceHasDecimal ? "" : ",-"}`;
+      });
+      const formattedUnitPriceHasDecimal = formattedUnitPrice % 1 !== 0;
+      formattedUnitPrice += formattedUnitPriceHasDecimal ? "" : ",-";
+      unitPricing += formattedUnitPrice;
       if (unit.si.symbol) {
         unitPricing += "/";
         if (unit.si.symbol === "pcs") {
