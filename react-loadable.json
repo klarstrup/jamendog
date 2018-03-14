@@ -1,880 +1,475 @@
 {
-  "undefined": [
-    {
-      "id": "apollo-client",
-      "name": "apollo-client",
-      "file": "server_dev.js"
-    },
-    {
-      "id": 0,
-      "name": null,
-      "file": "server_dev.js"
-    },
-    {
-      "id": "chalk",
-      "name": "chalk",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "stream",
-      "name": "stream",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "http",
-      "name": "http",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "https",
-      "name": "https",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "isomorphic-fetch",
-      "name": "isomorphic-fetch",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react",
-      "name": "react",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-loadable",
-      "name": "react-loadable",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-loadable/webpack",
-      "name": "react-loadable/webpack",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-dom/server",
-      "name": "react-dom/server",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "koa",
-      "name": "koa",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-apollo",
-      "name": "react-apollo",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "koa-sslify",
-      "name": "koa-sslify",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "kcors",
-      "name": "kcors",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "koa-send",
-      "name": "koa-send",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "koa-helmet",
-      "name": "koa-helmet",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "koa-router",
-      "name": "koa-router",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "microseconds",
-      "name": "microseconds",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-router",
-      "name": "react-router",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-helmet",
-      "name": "react-helmet",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "apollo-server-koa",
-      "name": "apollo-server-koa",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "koa-bodyparser",
-      "name": "koa-bodyparser",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "path",
-      "name": "path",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "apollo-cache-inmemory",
-      "name": "apollo-cache-inmemory",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "graphql",
-      "name": "graphql",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "shopgun-sdk",
-      "name": "shopgun-sdk",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "ramda",
-      "name": "ramda",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "camelize",
-      "name": "camelize",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "apollo-link",
-      "name": "apollo-link",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "graphql-tools",
-      "name": "graphql-tools",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "prop-types",
-      "name": "prop-types",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "redux",
-      "name": "redux",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "redux-thunk",
-      "name": "redux-thunk",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "seamless-immutable",
-      "name": "seamless-immutable",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "path-to-regexp",
-      "name": "path-to-regexp",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-icons/lib/md/menu",
-      "name": "react-icons/lib/md/menu",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-icons/lib/md/arrow-back",
-      "name": "react-icons/lib/md/arrow-back",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-icons/lib/md/filter-list",
-      "name": "react-icons/lib/md/filter-list",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-burger-menu",
-      "name": "react-burger-menu",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-router-dom",
-      "name": "react-router-dom",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "graphql-tag",
-      "name": "graphql-tag",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "history/createBrowserHistory",
-      "name": "history/createBrowserHistory",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "boxen",
-      "name": "boxen",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "ip",
-      "name": "ip",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "react-icons/lib/md/expand-more",
-      "name": "react-icons/lib/md/expand-more",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "apollo-client",
-      "name": "apollo-client",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": 0,
-      "name": null,
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "chalk",
-      "name": "chalk",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "stream",
-      "name": "stream",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "http",
-      "name": "http",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "https",
-      "name": "https",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "isomorphic-fetch",
-      "name": "isomorphic-fetch",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react",
-      "name": "react",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-loadable",
-      "name": "react-loadable",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-loadable/webpack",
-      "name": "react-loadable/webpack",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-dom/server",
-      "name": "react-dom/server",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "koa",
-      "name": "koa",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-apollo",
-      "name": "react-apollo",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "koa-sslify",
-      "name": "koa-sslify",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "kcors",
-      "name": "kcors",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "koa-send",
-      "name": "koa-send",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "koa-helmet",
-      "name": "koa-helmet",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "koa-router",
-      "name": "koa-router",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "microseconds",
-      "name": "microseconds",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-router",
-      "name": "react-router",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-helmet",
-      "name": "react-helmet",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "apollo-server-koa",
-      "name": "apollo-server-koa",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "koa-bodyparser",
-      "name": "koa-bodyparser",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "path",
-      "name": "path",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "apollo-cache-inmemory",
-      "name": "apollo-cache-inmemory",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "graphql",
-      "name": "graphql",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "shopgun-sdk",
-      "name": "shopgun-sdk",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "ramda",
-      "name": "ramda",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "camelize",
-      "name": "camelize",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "apollo-link",
-      "name": "apollo-link",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "graphql-tools",
-      "name": "graphql-tools",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "prop-types",
-      "name": "prop-types",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "redux",
-      "name": "redux",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "redux-thunk",
-      "name": "redux-thunk",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "seamless-immutable",
-      "name": "seamless-immutable",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "path-to-regexp",
-      "name": "path-to-regexp",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-icons/lib/md/menu",
-      "name": "react-icons/lib/md/menu",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-icons/lib/md/arrow-back",
-      "name": "react-icons/lib/md/arrow-back",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-icons/lib/md/filter-list",
-      "name": "react-icons/lib/md/filter-list",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-burger-menu",
-      "name": "react-burger-menu",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-router-dom",
-      "name": "react-router-dom",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "graphql-tag",
-      "name": "graphql-tag",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "history/createBrowserHistory",
-      "name": "history/createBrowserHistory",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "boxen",
-      "name": "boxen",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "ip",
-      "name": "ip",
-      "file": "server_dev.js.map"
-    },
-    {
-      "id": "react-icons/lib/md/expand-more",
-      "name": "react-icons/lib/md/expand-more",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "kit/lib/console": [
-    {
-      "id": "./kit/lib/console.js",
-      "name": "./kit/lib/console.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/lib/console.js",
-      "name": "./kit/lib/console.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "./server": [
-    {
-      "id": "./kit/entry/server.js",
-      "name": "./kit/entry/server.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/entry/server.js",
-      "name": "./kit/entry/server.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "src/app": [
-    {
-      "id": "./src/app.js",
-      "name": "./src/app.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./src/app.js",
-      "name": "./src/app.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "kit/lib/redux": [
-    {
-      "id": "./kit/lib/redux.js",
-      "name": "./kit/lib/redux.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/lib/redux.js",
-      "name": "./kit/lib/redux.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "kit/views/ssr": [
-    {
-      "id": "./kit/views/ssr.js",
-      "name": "./kit/views/ssr.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/views/ssr.js",
-      "name": "./kit/views/ssr.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "kit/lib/apollo": [
-    {
-      "id": "./kit/lib/apollo.js",
-      "name": "./kit/lib/apollo.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/lib/apollo.js",
-      "name": "./kit/lib/apollo.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "kit/config": [
-    {
-      "id": "./kit/config.js",
-      "name": "./kit/config.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/config.js",
-      "name": "./kit/config.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "config/paths": [
-    {
-      "id": "./config/paths.js",
-      "name": "./config/paths.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./config/paths.js",
-      "name": "./config/paths.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "C:\\Users\\PrettyWhore\\code\\jamendog\\kit\\entry\\server_dev.js": [
-    {
-      "id": "./kit/entry/server_dev.js",
-      "name": "./kit/entry/server_dev.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/entry/server_dev.js",
-      "name": "./kit/entry/server_dev.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "kit/lib/fragment_matcher": [
-    {
-      "id": "./kit/lib/fragment_matcher.js",
-      "name": "./kit/lib/fragment_matcher.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/lib/fragment_matcher.js",
-      "name": "./kit/lib/fragment_matcher.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "../../src/graphql/schema": [
-    {
-      "id": "./src/graphql/schema.js",
-      "name": "./src/graphql/schema.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./src/graphql/schema.js",
-      "name": "./src/graphql/schema.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "reducers/counter": [
-    {
-      "id": "./src/reducers/counter.js",
-      "name": "./src/reducers/counter.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./src/reducers/counter.js",
-      "name": "./src/reducers/counter.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "components/Main": [
-    {
-      "id": "./src/components/Main/index.js",
-      "name": "./src/components/Main/index.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./src/components/Main/index.js",
-      "name": "./src/components/Main/index.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "./styles.global.css": [
-    {
-      "id": "./src/styles.global.css",
-      "name": "./src/styles.global.css",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./src/styles.global.css",
-      "name": "./src/styles.global.css",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "components/routes": [
-    {
-      "id": "./src/components/routes.js",
-      "name": "./src/components/routes.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./src/components/routes.js",
-      "name": "./src/components/routes.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "./logo-sgn.svg": [
-    {
-      "id": "./src/components/Main/logo-sgn.svg",
-      "name": "./src/components/Main/logo-sgn.svg",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./src/components/Main/logo-sgn.svg",
-      "name": "./src/components/Main/logo-sgn.svg",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "kit/lib/routing": [
-    {
-      "id": "./kit/lib/routing.js",
-      "name": "./kit/lib/routing.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/lib/routing.js",
-      "name": "./kit/lib/routing.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "./env": [
-    {
-      "id": "./kit/lib/env.js",
-      "name": "./kit/lib/env.js",
-      "file": "server_dev.js"
-    },
-    {
-      "id": "./kit/lib/env.js",
-      "name": "./kit/lib/env.js",
-      "file": "server_dev.js.map"
-    }
-  ],
-  "../OfferPriceTag": [
-    {
-      "id": "./src/components/OfferPriceTag/index.js",
-      "name": "./src/components/OfferPriceTag/index.js",
-      "file": "0.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferPriceTag/index.js",
-      "name": "./src/components/OfferPriceTag/index.js",
-      "file": "0.server_dev.js.map"
-    },
-    {
-      "id": "./src/components/OfferPriceTag/index.js",
-      "name": "./src/components/OfferPriceTag/index.js",
-      "file": "1.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferPriceTag/index.js",
-      "name": "./src/components/OfferPriceTag/index.js",
-      "file": "1.server_dev.js.map"
-    }
-  ],
-  "./index.scss": [
-    {
-      "id": "./src/components/OfferPriceTag/index.scss",
-      "name": "./src/components/OfferPriceTag/index.scss",
-      "file": "0.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferPriceTag/index.scss",
-      "name": "./src/components/OfferPriceTag/index.scss",
-      "file": "0.server_dev.js.map"
-    },
-    {
-      "id": "./src/components/OfferPriceTag/index.scss",
-      "name": "./src/components/OfferPriceTag/index.scss",
-      "file": "1.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferPriceTag/index.scss",
-      "name": "./src/components/OfferPriceTag/index.scss",
-      "file": "1.server_dev.js.map"
-    }
-  ],
-  "./OfferQuantity": [
-    {
-      "id": "./src/components/OfferQuantity/OfferQuantity.js",
-      "name": "./src/components/OfferQuantity/OfferQuantity.js",
-      "file": "0.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferQuantity/OfferQuantity.js",
-      "name": "./src/components/OfferQuantity/OfferQuantity.js",
-      "file": "0.server_dev.js.map"
-    },
-    {
-      "id": "./src/components/OfferQuantity/OfferQuantity.js",
-      "name": "./src/components/OfferQuantity/OfferQuantity.js",
-      "file": "1.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferQuantity/OfferQuantity.js",
-      "name": "./src/components/OfferQuantity/OfferQuantity.js",
-      "file": "1.server_dev.js.map"
-    }
-  ],
-  "components/OfferQuantity": [
-    {
-      "id": "./src/components/OfferQuantity/index.js",
-      "name": "./src/components/OfferQuantity/index.js",
-      "file": "0.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferQuantity/index.js",
-      "name": "./src/components/OfferQuantity/index.js",
-      "file": "0.server_dev.js.map"
-    },
-    {
-      "id": "./src/components/OfferQuantity/index.js",
-      "name": "./src/components/OfferQuantity/index.js",
-      "file": "1.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferQuantity/index.js",
-      "name": "./src/components/OfferQuantity/index.js",
-      "file": "1.server_dev.js.map"
-    }
-  ],
-  "components/OfferUnitPrice": [
-    {
-      "id": "./src/components/OfferUnitPrice/index.js",
-      "name": "./src/components/OfferUnitPrice/index.js",
-      "file": "0.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferUnitPrice/index.js",
-      "name": "./src/components/OfferUnitPrice/index.js",
-      "file": "0.server_dev.js.map"
-    },
-    {
-      "id": "./src/components/OfferUnitPrice/index.js",
-      "name": "./src/components/OfferUnitPrice/index.js",
-      "file": "1.server_dev.js"
-    },
-    {
-      "id": "./src/components/OfferUnitPrice/index.js",
-      "name": "./src/components/OfferUnitPrice/index.js",
-      "file": "1.server_dev.js.map"
-    }
-  ],
-  "./SearchQuery.graphql": [
-    {
-      "id": "./src/components/SearchResults/SearchQuery.graphql",
-      "name": "./src/components/SearchResults/SearchQuery.graphql",
-      "file": "0.server_dev.js"
-    },
-    {
-      "id": "./src/components/SearchResults/SearchQuery.graphql",
-      "name": "./src/components/SearchResults/SearchQuery.graphql",
-      "file": "0.server_dev.js.map"
-    },
-    {
-      "id": "./src/components/SearchSplash/SearchQuery.graphql",
-      "name": "./src/components/SearchSplash/SearchQuery.graphql",
-      "file": "1.server_dev.js"
-    },
-    {
-      "id": "./src/components/SearchSplash/SearchQuery.graphql",
-      "name": "./src/components/SearchSplash/SearchQuery.graphql",
-      "file": "1.server_dev.js.map"
-    }
-  ],
-  "components/SearchResults": [
-    {
-      "id": "./src/components/SearchResults/index.js",
-      "name": "./src/components/SearchResults/index.js",
-      "file": "0.server_dev.js"
-    },
-    {
-      "id": "./src/components/SearchResults/index.js",
-      "name": "./src/components/SearchResults/index.js",
-      "file": "0.server_dev.js.map"
+  "components/SearchSplash": [
+    {
+      "id": 14,
+      "name": "./src/components/SearchSplash/index.js",
+      "file": "0.server.js"
     }
   ],
   "../SearchResultsBusiness": [
     {
-      "id": "./src/components/SearchResultsBusiness/index.js",
+      "id": 67,
       "name": "./src/components/SearchResultsBusiness/index.js",
-      "file": "0.server_dev.js"
+      "file": "0.server.js"
     },
     {
-      "id": "./src/components/SearchResultsBusiness/index.js",
+      "id": 67,
       "name": "./src/components/SearchResultsBusiness/index.js",
-      "file": "0.server_dev.js.map"
+      "file": "1.server.js"
+    }
+  ],
+  "./index.scss": [
+    {
+      "id": 68,
+      "name": "./src/components/OfferPriceTag/index.scss",
+      "file": "0.server.js"
     },
     {
-      "id": "./src/components/SearchResultsBusiness/index.js",
-      "name": "./src/components/SearchResultsBusiness/index.js",
-      "file": "1.server_dev.js"
+      "id": 68,
+      "name": "./src/components/OfferPriceTag/index.scss",
+      "file": "1.server.js"
+    }
+  ],
+  "components/OfferUnitPrice": [
+    {
+      "id": 69,
+      "name": "./src/components/OfferUnitPrice/index.js",
+      "file": "0.server.js"
     },
     {
-      "id": "./src/components/SearchResultsBusiness/index.js",
-      "name": "./src/components/SearchResultsBusiness/index.js",
-      "file": "1.server_dev.js.map"
+      "id": 69,
+      "name": "./src/components/OfferUnitPrice/index.js",
+      "file": "1.server.js"
+    }
+  ],
+  "./OfferQuantity": [
+    {
+      "id": 70,
+      "name": "./src/components/OfferQuantity/OfferQuantity.js",
+      "file": "0.server.js"
+    },
+    {
+      "id": 70,
+      "name": "./src/components/OfferQuantity/OfferQuantity.js",
+      "file": "1.server.js"
+    }
+  ],
+  "components/OfferQuantity": [
+    {
+      "id": 71,
+      "name": "./src/components/OfferQuantity/index.js",
+      "file": "0.server.js"
+    },
+    {
+      "id": 71,
+      "name": "./src/components/OfferQuantity/index.js",
+      "file": "1.server.js"
+    }
+  ],
+  "../OfferPriceTag": [
+    {
+      "id": 72,
+      "name": "./src/components/OfferPriceTag/index.js",
+      "file": "0.server.js"
+    },
+    {
+      "id": 72,
+      "name": "./src/components/OfferPriceTag/index.js",
+      "file": "1.server.js"
     }
   ],
   "../SearchResultsOffer": [
     {
-      "id": "./src/components/SearchResultsOffer/index.js",
+      "id": 73,
       "name": "./src/components/SearchResultsOffer/index.js",
-      "file": "0.server_dev.js"
+      "file": "0.server.js"
     },
     {
-      "id": "./src/components/SearchResultsOffer/index.js",
+      "id": 73,
       "name": "./src/components/SearchResultsOffer/index.js",
-      "file": "0.server_dev.js.map"
-    },
-    {
-      "id": "./src/components/SearchResultsOffer/index.js",
-      "name": "./src/components/SearchResultsOffer/index.js",
-      "file": "1.server_dev.js"
-    },
-    {
-      "id": "./src/components/SearchResultsOffer/index.js",
-      "name": "./src/components/SearchResultsOffer/index.js",
-      "file": "1.server_dev.js.map"
+      "file": "1.server.js"
     }
   ],
-  "components/SearchSplash": [
+  "./SearchQuery.graphql": [
     {
-      "id": "./src/components/SearchSplash/index.js",
-      "name": "./src/components/SearchSplash/index.js",
-      "file": "1.server_dev.js"
+      "id": 74,
+      "name": "./src/components/SearchSplash/SearchQuery.graphql",
+      "file": "0.server.js"
     },
     {
-      "id": "./src/components/SearchSplash/index.js",
-      "name": "./src/components/SearchSplash/index.js",
-      "file": "1.server_dev.js.map"
+      "id": 75,
+      "name": "./src/components/SearchResults/SearchQuery.graphql",
+      "file": "1.server.js"
+    }
+  ],
+  "components/SearchResults": [
+    {
+      "id": 15,
+      "name": "./src/components/SearchResults/index.js",
+      "file": "1.server.js"
+    }
+  ],
+  "undefined": [
+    {
+      "id": 0,
+      "name": "react",
+      "file": "server.js"
+    },
+    {
+      "id": 3,
+      "name": "prop-types",
+      "file": "server.js"
+    },
+    {
+      "id": 4,
+      "name": "shopgun-sdk",
+      "file": "server.js"
+    },
+    {
+      "id": 5,
+      "name": "ramda",
+      "file": "server.js"
+    },
+    {
+      "id": 6,
+      "name": "react-apollo",
+      "file": "server.js"
+    },
+    {
+      "id": 7,
+      "name": "react-helmet",
+      "file": "server.js"
+    },
+    {
+      "id": 8,
+      "name": "apollo-cache-inmemory",
+      "file": "server.js"
+    },
+    {
+      "id": 9,
+      "name": "camelize",
+      "file": "server.js"
+    },
+    {
+      "id": 10,
+      "name": "react-router-dom",
+      "file": "server.js"
+    },
+    {
+      "id": 11,
+      "name": "react-loadable",
+      "file": "server.js"
+    },
+    {
+      "id": 13,
+      "name": "path",
+      "file": "server.js"
+    },
+    {
+      "id": 16,
+      "name": "koa-bodyparser",
+      "file": "server.js"
+    },
+    {
+      "id": 17,
+      "name": "apollo-link",
+      "file": "server.js"
+    },
+    {
+      "id": 19,
+      "name": "graphql",
+      "file": "server.js"
+    },
+    {
+      "id": 20,
+      "name": "apollo-client",
+      "file": "server.js"
+    },
+    {
+      "id": 23,
+      "name": "seamless-immutable",
+      "file": "server.js"
+    },
+    {
+      "id": 24,
+      "name": "redux-thunk",
+      "file": "server.js"
+    },
+    {
+      "id": 25,
+      "name": "redux",
+      "file": "server.js"
+    },
+    {
+      "id": 29,
+      "name": "graphql-tools",
+      "file": "server.js"
+    },
+    {
+      "id": 30,
+      "name": "history/createBrowserHistory",
+      "file": "server.js"
+    },
+    {
+      "id": 33,
+      "name": "graphql-tag",
+      "file": "server.js"
+    },
+    {
+      "id": 34,
+      "name": "react-burger-menu",
+      "file": "server.js"
+    },
+    {
+      "id": 35,
+      "name": "react-icons/lib/md/filter-list",
+      "file": "server.js"
+    },
+    {
+      "id": 36,
+      "name": "react-icons/lib/md/arrow-back",
+      "file": "server.js"
+    },
+    {
+      "id": 37,
+      "name": "react-icons/lib/md/menu",
+      "file": "server.js"
+    },
+    {
+      "id": 38,
+      "name": "path-to-regexp",
+      "file": "server.js"
+    },
+    {
+      "id": 42,
+      "name": "apollo-server-koa",
+      "file": "server.js"
+    },
+    {
+      "id": 43,
+      "name": "react-router",
+      "file": "server.js"
+    },
+    {
+      "id": 44,
+      "name": "microseconds",
+      "file": "server.js"
+    },
+    {
+      "id": 45,
+      "name": "koa-router",
+      "file": "server.js"
+    },
+    {
+      "id": 46,
+      "name": "koa-helmet",
+      "file": "server.js"
+    },
+    {
+      "id": 47,
+      "name": "koa-send",
+      "file": "server.js"
+    },
+    {
+      "id": 48,
+      "name": "kcors",
+      "file": "server.js"
+    },
+    {
+      "id": 49,
+      "name": "koa-sslify",
+      "file": "server.js"
+    },
+    {
+      "id": 50,
+      "name": "koa",
+      "file": "server.js"
+    },
+    {
+      "id": 51,
+      "name": "react-dom/server",
+      "file": "server.js"
+    },
+    {
+      "id": 52,
+      "name": "react-loadable/webpack",
+      "file": "server.js"
+    },
+    {
+      "id": 53,
+      "name": "isomorphic-fetch",
+      "file": "server.js"
+    },
+    {
+      "id": 54,
+      "name": "https",
+      "file": "server.js"
+    },
+    {
+      "id": 55,
+      "name": "http",
+      "file": "server.js"
+    },
+    {
+      "id": 56,
+      "name": "stream",
+      "file": "server.js"
+    },
+    {
+      "id": 59,
+      "name": "ip",
+      "file": "server.js"
+    },
+    {
+      "id": 60,
+      "name": "chalk",
+      "file": "server.js"
+    },
+    {
+      "id": 61,
+      "name": "boxen",
+      "file": "server.js"
+    },
+    {
+      "id": 63,
+      "name": "fs",
+      "file": "server.js"
+    },
+    {
+      "id": 65,
+      "name": null,
+      "file": "server.js"
+    },
+    {
+      "id": 66,
+      "name": "react-icons/lib/md/expand-more",
+      "file": "server.js"
+    }
+  ],
+  "kit/config": [
+    {
+      "id": 1,
+      "name": "./kit/config.js",
+      "file": "server.js"
+    }
+  ],
+  "../../src/graphql/schema": [
+    {
+      "id": 2,
+      "name": "./src/graphql/schema.js",
+      "file": "server.js"
+    }
+  ],
+  "config/paths": [
+    {
+      "id": 12,
+      "name": "./config/paths.js",
+      "file": "server.js"
+    }
+  ],
+  "kit/lib/fragment_matcher": [
+    {
+      "id": 18,
+      "name": "./kit/lib/fragment_matcher.js",
+      "file": "server.js"
+    }
+  ],
+  "kit/lib/apollo": [
+    {
+      "id": 21,
+      "name": "./kit/lib/apollo.js",
+      "file": "server.js"
+    }
+  ],
+  "kit/views/ssr": [
+    {
+      "id": 22,
+      "name": "./kit/views/ssr.js",
+      "file": "server.js"
+    }
+  ],
+  "kit/lib/redux": [
+    {
+      "id": 26,
+      "name": "./kit/lib/redux.js",
+      "file": "server.js"
+    }
+  ],
+  "./styles.global.css": [
+    {
+      "id": 27,
+      "name": "./src/styles.global.css",
+      "file": "server.js"
+    }
+  ],
+  "./logo-sgn.svg": [
+    {
+      "id": 28,
+      "name": "./src/components/Main/logo-sgn.svg",
+      "file": "server.js"
+    }
+  ],
+  "kit/lib/routing": [
+    {
+      "id": 31,
+      "name": "./kit/lib/routing.js",
+      "file": "server.js"
+    }
+  ],
+  "components/routes": [
+    {
+      "id": 32,
+      "name": "./src/components/routes.js",
+      "file": "server.js"
+    }
+  ],
+  "components/Main": [
+    {
+      "id": 39,
+      "name": "./src/components/Main/index.js",
+      "file": "server.js"
+    }
+  ],
+  "reducers/counter": [
+    {
+      "id": 40,
+      "name": "./src/reducers/counter.js",
+      "file": "server.js"
+    }
+  ],
+  "src/app": [
+    {
+      "id": 41,
+      "name": "./src/app.js",
+      "file": "server.js"
+    }
+  ],
+  "./server": [
+    {
+      "id": 57,
+      "name": "./kit/entry/server.js",
+      "file": "server.js"
+    }
+  ],
+  "./env": [
+    {
+      "id": 58,
+      "name": "./kit/lib/env.js",
+      "file": "server.js"
+    }
+  ],
+  "kit/lib/console": [
+    {
+      "id": 62,
+      "name": "./kit/lib/console.js",
+      "file": "server.js"
+    }
+  ],
+  "/Users/klarstrup/code/jamendog/kit/entry/server_prod.js": [
+    {
+      "id": 64,
+      "name": "./kit/entry/server_prod.js",
+      "file": "server.js"
     }
   ]
 }

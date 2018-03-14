@@ -5,6 +5,7 @@
 
 // Apollo client library
 import { ApolloClient } from "apollo-client";
+import { toIdValue } from 'apollo-utilities';
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { execute } from "graphql";
 import SGN from "shopgun-sdk";

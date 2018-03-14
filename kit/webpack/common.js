@@ -105,31 +105,29 @@ export const css = {
         for (const mod of css.getModuleRegExp(loader.ext)) {
           yield {
             test: new RegExp(mod[0]),
-            use: [
-              extractCSS.loader,
-              {
-                loader: "css-loader",
-                query: Object.assign(
-                  {},
-                  css.loaderDefaults,
-                  {
+            loader: extractCSS.extract({
+              use: [
+                {
+                  loader: 'css-loader',
+                  query: Object.assign({}, css.loaderDefaults, {
+                    sourceMap,
+                  }, mod[1]),
+                },
+                {
+                  loader: 'postcss-loader',
+                  options: {
                     sourceMap,
                   },
-                  mod[1],
-                ),
-              },
-              {
-                loader: "postcss-loader",
-                options: {
-                  sourceMap,
                 },
-              },
-              ...loader.use,
-            ],
+                ...loader.use,
+              ],
+              fallback: 'style-loader',
+              publicPath: '../../',
+            }),
           };
         }
       }
-    })();
+    }());
   },
 };
 

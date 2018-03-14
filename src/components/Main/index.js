@@ -11,11 +11,12 @@ import { slide as Menu } from "react-burger-menu";
 
 import { Route, Switch, withRouter, Link } from "react-router-dom";
 
-import { graphql, Query } from "react-apollo";
+import { graphql, Query, Mutation } from "react-apollo";
 import gql from "graphql-tag";
 
 import { WhenNotFound } from "components/routes";
 
+import { getModified } from "../../graphql/schema.js";
 import logo from "./logo-sgn.svg";
 
 @withRouter
@@ -263,7 +264,7 @@ const viewerQuery = gql`
   }
 `;
 
-@graphql(gql`
+const logInMutation = gql`
   mutation($logIn: LogInInput) {
     logIn(input: $logIn) {
       id
@@ -273,41 +274,43 @@ const viewerQuery = gql`
       name
     }
   }
-`)
-class LogInForm extends React.Component {
-  onSubmit = e => {
-    e.preventDefault();
+`;
 
-    this.props.mutate({
-      variables: {
-        logIn: {
-          email: e.currentTarget.email.value,
-          password: e.currentTarget.password.value,
-        },
-      },
-      update: (proxy, { data: { logIn } }) => {
-        proxy.writeQuery({
-          query: viewerQuery,
-          data: {
-            ...proxy.readQuery({ query: viewerQuery }),
-            viewer: logIn,
-          },
-        });
-      },
-    });
-  };
-  render() {
-    return (
-      <form onSubmit={this.onSubmit}>
+const LogInForm = () => (
+  <Mutation mutation={logInMutation}>
+    {logIn => (
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+
+          logIn({
+            variables: {
+              logIn: {
+                email: e.currentTarget.email.value,
+                password: e.currentTarget.password.value,
+              },
+            },
+            update: (proxy, { data }) => {
+              proxy.writeQuery({
+                query: viewerQuery,
+                data: {
+                  ...proxy.readQuery({ query: viewerQuery }),
+                  viewer: data.logIn,
+                },
+              });
+            },
+          });
+        }}
+      >
         <input type="email" name="email" />
         <input type="password" name="password" />
         <input type="submit" />
       </form>
-    );
-  }
-}
+    )}
+  </Mutation>
+);
 
-@graphql(gql`
+const logOutMutation = gql`
   mutation logOut {
     logOut {
       id
@@ -317,56 +320,97 @@ class LogInForm extends React.Component {
       name
     }
   }
-`)
-class LogOutForm extends React.Component {
-  onSubmit = e => {
-    e.preventDefault();
+`;
+const LogOutForm = () => (
+  <Mutation mutation={logOutMutation}>
+    {logOut => (
+      <form
+        onSubmit={e => {
+          e.preventDefault();
 
-    this.props.mutate({
-      update: (proxy, { data: { logOut } }) => {
-        proxy.writeQuery({
-          query: viewerQuery,
-          data: {
-            ...proxy.readQuery({ query: viewerQuery }),
-            viewer: logOut,
-          },
-        });
-      },
-    });
-  };
-  render() {
-    return (
-      <form onSubmit={this.onSubmit}>
+          logOut({
+            update: (proxy, { data }) => {
+              proxy.writeQuery({
+                query: viewerQuery,
+                data: {
+                  ...proxy.readQuery({ query: viewerQuery }),
+                  viewer: data.logOut,
+                },
+              });
+            },
+          });
+        }}
+      >
         <input type="submit" value="Log out" />
       </form>
-    );
-  }
-}
+    )}
+  </Mutation>
+);
 
-class ShoppingList extends React.Component {
-  state = {
-    selectedListId: "",
-  };
-  handleChangeList = event => this.setState({ selectedListId: event.target.value });
-  render() {
-    const { selectedListId } = this.state;
-    return (
-      <Query
-        query={gql`
-          {
-            getShoppingLists {
-              id
-              name
-            }
+const getActiveList = lists => {
+  const sortedLists = [...lists].sort(function(a, b) {
+    const aActiveMeta = a.meta.find(meta => meta.property === "active");
+    const bActiveMeta = b.meta.find(meta => meta.property === "active");
+    a = aActiveMeta ? new Date(aActiveMeta.value) : new Date(0);
+    b = bActiveMeta ? new Date(bActiveMeta.value) : new Date(0);
+    return a > b ? -1 : a < b ? 1 : 0;
+  });
+  return sortedLists[0];
+};
+
+const activateListMutation = gql`
+  mutation activateShoppingList($id: String!) {
+    activateShoppingList(id: $id) {
+      id
+      meta {
+        property
+        value
+      }
+    }
+  }
+`;
+const activateListOptimisticResponse = id => ({
+  activateShoppingList: {
+    id,
+    meta: [
+      {
+        property: "active",
+        value: getModified(),
+        __typename: "Meta",
+      },
+    ],
+    __typename: "ShoppingList",
+  },
+});
+const ShoppingList = () => (
+  <Query
+    query={gql`
+      {
+        getShoppingLists {
+          id
+          name
+          meta {
+            property
+            value
           }
-        `}
-      >
-        {({ data: { getShoppingLists } }) => (
-          <div>
-            {getShoppingLists && getShoppingLists.length ? (
+        }
+      }
+    `}
+  >
+    {({ data: { getShoppingLists = [] } = {} }, activeList = getActiveList(getShoppingLists)) => (
+      <div>
+        {getShoppingLists.length ? (
+          <Mutation mutation={activateListMutation}>
+            {(activateList, result) => (
               <select
-                value={selectedListId || getShoppingLists[0].id}
-                onChange={this.handleChangeList}
+                value={activeList.id}
+                onChange={event => {
+                  const id = event.target.value;
+                  activateList({
+                    variables: { id },
+                    optimisticResponse: activateListOptimisticResponse(id),
+                  });
+                }}
               >
                 {getShoppingLists.map(list => (
                   <option value={list.id} key={list.id}>
@@ -374,51 +418,62 @@ class ShoppingList extends React.Component {
                   </option>
                 ))}
               </select>
-            ) : (
-              "???"
             )}
-            {selectedListId || (getShoppingLists && getShoppingLists[0]) ? (
-              <Query
-                variables={{
-                  id: selectedListId || (getShoppingLists && getShoppingLists[0].id),
-                }}
-                query={gql`
-                  query getShoppingList($id: String) {
-                    getShoppingList(id: $id) {
-                      id
-                      name
-                      meta {
-                        property
-                        value
-                      }
-                      items {
-                        id
-                        count
-                        description
-                        tick
-                        offerId
-                        meta {
-                          property
-                          value
-                        }
-                      }
+          </Mutation>
+        ) : (
+          "???"
+        )}
+        {activeList ? (
+          <Query
+            variables={{
+              id: activeList.id,
+            }}
+            query={gql`
+              query getShoppingList($id: String) {
+                getShoppingList(id: $id) {
+                  id
+                  name
+                  meta {
+                    property
+                    value
+                  }
+                  items {
+                    id
+                    count
+                    description
+                    tick
+                    offerId
+                    meta {
+                      property
+                      value
                     }
                   }
-                `}
-              >
-                {({ data: { getShoppingList: { items } = {} } = {} } = {}) =>
-                  items ? (
-                    <ul>{items.map(item => <li key={item.id}>{JSON.stringify(item)}</li>)}</ul>
-                  ) : null
                 }
-              </Query>
-            ) : null}
-          </div>
+              }
+            `}
+          >
+            {({ data: { getShoppingList: { items, meta } = {} } = {} } = {}) => (
+              <React.Fragment>
+                <h1>{activeList.name}</h1>
+                {items ? (
+                  <ul>
+                    {items.map(item => (
+                      <li key={item.id}>
+                        <pre>{JSON.stringify(item, null, 2)}</pre>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </React.Fragment>
+            )}
+          </Query>
+        ) : (
+          <h1>WANGS</h1>
         )}
-      </Query>
-    );
-  }
-}
+      </div>
+    )}
+  </Query>
+);
 const SearchResults = Loadable({
   loader: () => import("components/SearchResults"),
   loading: () => null,
@@ -446,8 +501,7 @@ export default () => (
                 </React.Fragment>
               ) : (
                 <LogInForm />
-              )
-            }
+              )}
           </Query>
         )}
       />

@@ -96,9 +96,9 @@ export default new WebpackConfig()
     externals: nodeModules({
       whitelist: [regex.fonts, regex.images],
     }),
-    plugins: [
+    plugins: [/*
       new ReactLoadablePlugin({
         filename: "./react-loadable.json",
       }),
-    ],
+    */],
   });

@@ -57,11 +57,8 @@ import PATHS from "../../config/paths";
 // ----------------------
 
 // The final CSS file will wind up in `dist/public/assets/css/style.[contenthash].css`
-const extractCSS = new MiniCssExtractPlugin({
-  // Options similar to the same options in webpackOptions.output
-  // both options are optional
+const extractCSS = new ExtractTextPlugin({
   filename: "assets/css/style.[contenthash].css",
-  chunkFilename: "[id].css",
   allChunks: true,
 });
 
@@ -89,7 +86,7 @@ export default new WebpackConfig()
     module: {
       rules: [
         // CSS loaders
-        ...css.getExtractCSSLoaders(MiniCssExtractPlugin),
+        ...css.getExtractCSSLoaders(extractCSS),
       ],
     },
     // Minify, optimise

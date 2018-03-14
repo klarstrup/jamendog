@@ -8,7 +8,7 @@ import SGN from "shopgun-sdk";
 
 if (!SERVER) window.SGN = SGN;
 const pad = number => (number < 10 ? "0" + number : number);
-const getModified = (date = new Date()) => {
+export const getModified = (date = new Date()) => {
   return (
     date.getUTCFullYear() +
     "-" +
@@ -147,6 +147,7 @@ const typeDefs = `
     type Mutation {
       logIn(input: LogInInput): User!
       logOut: User
+      activateShoppingList(id: String): ShoppingList!
     }
     type User {
       id: String
@@ -175,21 +176,6 @@ const typeDefs = `
     }
 `;
 
-/*
-
-      REST({
-        url: `/v2/users/${ctx.session.user.id}/shoppinglists/${list.id}`,
-        method: "PUT",
-        body: {
-          modified: getModified(),
-          ...list,
-          meta: {
-            ...list.meta,
-            active: true,
-          },
-        },
-      }
-      */
 const resolvers = {
   SearchResult: {
     __resolveType: ({ ern }) =>
@@ -250,6 +236,23 @@ const resolvers = {
           resolve(camelCaseObject(response));
         }),
       )).user,
+    activateShoppingList: async (root, { id }, ctx) => {
+      const list = await REST({
+        url: `/v2/users/${ctx.session.user.id}/shoppinglists/${id}`,
+      });
+      const timestamp = getModified();
+      return REST({
+        url: `/v2/users/${ctx.session.user.id}/shoppinglists/${id}`,
+        method: "PUT",
+        body: {
+          ...list,
+          meta: {
+            ...list.meta,
+            active: timestamp,
+          },
+        },
+      });
+    },
   },
   Query: {
     getOffers: (root, { term = "", offset = 0, limit = 70 }) =>
